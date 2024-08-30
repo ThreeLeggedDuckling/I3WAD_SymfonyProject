@@ -1,8 +1,17 @@
 # Projet Symfony
 
-## L'application
+## Table des matières
 
-### Principe
+1. [L'application](#l'application)
+    1. [Principe](#principe)
+    2. [Fonctionnalités](#fonctionnalités)
+    2. [Pages](#pages)
+2. [Avancement](#avancement)
+2. [Liens utiles](#liens-utiles)
+
+## 1. L'application
+
+### 1. 1. Principe
 
 Application permettant aux utilisateurs de trouver ou de former des groupes de jeu de rôles. Les utilisateurs peuvent consulter et poster des annonces sur un message board. Les annonces peuvent être triées par date de publication, par modalité (présentiel / en ligne), par expérience ou par localisation.
 
@@ -10,32 +19,32 @@ Il y a un système de messagerie pour que les utilisateurs puissent communiquer 
 
 Les utilisateurs ont accès à un espace personnel reprennant l'activité des annonces avec lesquelles ils ont interagi (postée / commentée) et un récapitulatif de leurs groupes (accès groupes, rappels sessions). Ils peuvent aussi personnaliser leur profil (présentation personnelle).
 
-### Fonctionnalités
+### 1. 2. Fonctionnalités
 
-1. Compte utilisateur
-2. Message board
-3. Localisation avec OpenStreetMap
-4. Messagerie
-5. Système de sondage
+- Compte utilisateur
+- Message board
+- Localisation avec OpenStreetMap
+- Messagerie
+- Système de sondage
 
-### Pages
-1. Page d'accueil
-2. Page de connexion
-4. Espace utilisateur
-3. Espace annonces
-5. Messagerie / forum
-6. Espace groupe
+### 1. 3. Pages
+- Page d'accueil
+- Page de connexion
+- Espace utilisateur
+- Espace annonces
+- Messagerie
+- Espace groupe
+- Espace campagne
 
-## Avancement
+## 2. Avancement
 
-- [ ] Créer MCD / MLD
-- [ ] Créer diagramme de classes
+- [X] Analyse MCD / MLD
+- [ ] Analyse UML
 - [ ] ... attendre validation
-- [ ] ...
 
-## Liens utiles
+## 3. Liens utiles
 
-http://www.lsv.fr/~schmitz/teach/2003_AP_Java/UML/
-https://creately.com/diagram/example/ikqawlun/online-discussion-form-uml-diagram
-https://creately.com/diagram/example/i3dg9go71/social-media-class-diagram
-https://www.researchgate.net/figure/Use-case-diagram-of-forum-discusion-model_fig2_271298323
+Exemples analyse:
+- [Creately Online Discussion Template](https://creately.com/diagram/example/ikqawlun/online-discussion-form-uml-diagram)
+- [Creately Social Media Template](https://creately.com/diagram/example/i3dg9go71/social-media-class-diagram)
+- [Mohamed Talea's forum discusion UC (ResaerchGate)](https://www.researchgate.net/figure/Use-case-diagram-of-forum-discusion-model_fig2_271298323)
