@@ -28,6 +28,7 @@ Les utilisateurs ont accès à un espace personnel reprennant l'activité des an
 - Système de sondage
 
 ### 1. 3. Pages
+
 - Page d'accueil
 - Page de connexion
 - Espace utilisateur
@@ -39,7 +40,6 @@ Les utilisateurs ont accès à un espace personnel reprennant l'activité des an
 ## 2. Avancement
 
 - [X] Analyse MCD / MLD
-- [ ] Analyse UML
 - [ ] ... attendre validation
 
 ## 3. Liens utiles
