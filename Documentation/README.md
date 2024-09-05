@@ -42,7 +42,7 @@ Les utilisateurs ont accès à un espace personnel reprennant l'activité des an
 - [X] Analyse
     - [ ] Revoir analyse
     - [ ] ... attendre validation
-- [ ] Implémenter le modèle[^1]
+- [ ] Implémenter le modèle [^1]
 
 [^1]: entité User créée via le framework (pas manuellement)
 
