@@ -37,10 +37,6 @@ class Campain
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'campain', orphanRemoval: true)]
     private Collection $files;
 
-    #[ORM\ManyToOne(inversedBy: 'masters')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?GroupMember $gameMaster = null;
-
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -144,18 +140,6 @@ class Campain
                 $file->setCampain(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getGameMaster(): ?GroupMember
-    {
-        return $this->gameMaster;
-    }
-
-    public function setGameMaster(?GroupMember $gameMaster): static
-    {
-        $this->gameMaster = $gameMaster;
 
         return $this;
     }

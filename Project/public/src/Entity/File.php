@@ -36,10 +36,6 @@ class File
     #[ORM\JoinColumn(nullable: false)]
     private ?Campain $campain = null;
 
-    #[ORM\ManyToOne(inversedBy: 'files')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?GroupMember $author = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -125,18 +121,6 @@ class File
     public function setCampain(?Campain $campain): static
     {
         $this->campain = $campain;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?GroupMember
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?GroupMember $author): static
-    {
-        $this->author = $author;
 
         return $this;
     }

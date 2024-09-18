@@ -20,12 +20,6 @@ class Group
     private ?string $name = null;
 
     /**
-     * @var Collection<int, GroupMember>
-     */
-    #[ORM\OneToMany(targetEntity: GroupMember::class, mappedBy: 'inGroup', orphanRemoval: true)]
-    private Collection $members;
-
-    /**
      * @var Collection<int, Campain>
      */
     #[ORM\OneToMany(targetEntity: Campain::class, mappedBy: 'playing_group', orphanRemoval: true)]
@@ -33,7 +27,6 @@ class Group
 
     public function __construct()
     {
-        $this->members = new ArrayCollection();
         $this->campains = new ArrayCollection();
     }
 
@@ -50,36 +43,6 @@ class Group
     public function setName(?string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, GroupMember>
-     */
-    public function getMembers(): Collection
-    {
-        return $this->members;
-    }
-
-    public function addMember(GroupMember $member): static
-    {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->setInGroup($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMember(GroupMember $member): static
-    {
-        if ($this->members->removeElement($member)) {
-            // set the owning side to null (unless already changed)
-            if ($member->getInGroup() === $this) {
-                $member->setInGroup(null);
-            }
-        }
 
         return $this;
     }
