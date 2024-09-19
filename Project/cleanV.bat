@@ -1,13 +1,17 @@
 @echo off
 
-:Cleanmig
+:CleanV
 set /p choice=Clean the migrations folder? [y/n]
-IF %choice% == n goto Newmig
+IF %choice% == n goto Rebuild
 del migrations\V*
+
+:Rebuild
+set /p choice=Rebuild DB? [y/n]
+IF %choice% == n goto NewM
 symfony console doctrine:database:drop --force --no-interaction
 symfony console doctrine:database:create
 
-:Newmig
+:NewM
 set /p choice=Make new migration? [y/n]
 IF %choice% == n goto Fixtures
 symfony console make:migration --no-interaction

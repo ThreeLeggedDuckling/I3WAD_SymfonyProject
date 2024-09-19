@@ -26,7 +26,7 @@ Liens :
 [^1]: Même si rajoute automatiquement "-id" à la fin, impossible d'utiliser "group" car appellation réservée
 
 
-**Version20240918212853**
+**Version20240919065439**
 
 Etat : non fonctionnelle
 -> FAIT : make:user, make:security:form-login, make:regitration-form
