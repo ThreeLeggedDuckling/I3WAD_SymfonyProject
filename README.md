@@ -1,7 +1,5 @@
 # Projet Symfony
 
-## Table des matières
-
 1. [L'application](#l'application)
     1. [Principe](#principe)
     2. [Fonctionnalités](#fonctionnalités)
