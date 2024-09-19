@@ -1,4 +1,4 @@
-# Etat du projet (240919.1246)
+# Etat du projet
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -13,8 +13,7 @@
 ## 1. Fil conducteur
 
 - [X] Analyse
-    - [ ] Revoir analyse
-    - [ ] ... attendre validation
+    - [ ] ... revoir analyse ?
 - [X] Créer utilisateur
 - [X] Créer système de connexion
 - [ ] Implémenter le modèle
@@ -22,6 +21,7 @@
 ## 2. A faire
 
 - liens User
+- lien réflexif Comment
 - fixtures autres
 
 ## 3. Fait
@@ -70,7 +70,7 @@
 
 ### 3. Formulaires
 
-- Regitration
+- Registration
 
 ### 4. Repositories
 
@@ -90,4 +90,6 @@
 
 ### 6. Autre
 
-- redirections (dé)connexion
+- redirection (dé)connexion
+
+*last update 240919.1314
