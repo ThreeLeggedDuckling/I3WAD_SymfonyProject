@@ -6,7 +6,6 @@
     1. [Principe](#principe)
     2. [Fonctionnalités](#fonctionnalités)
     2. [Pages](#pages)
-2. [Avancement](#avancement)
 2. [Liens utiles](#liens-utiles)
 
 ## 1. L'application
@@ -37,16 +36,7 @@ Les utilisateurs ont accès à un espace personnel reprennant l'activité des an
 - Espace groupe
 - Espace campagne
 
-## 2. Avancement
-
-- [X] Analyse
-    - [ ] Revoir analyse
-    - [ ] ... attendre validation
-- [ ] Implémenter le modèle [^1]
-
-[^1]: entité User créée via le framework (pas manuellement)
-
-## 3. Liens utiles
+## 2. Liens utiles
 
 Exemples analyse:
 - [Creately Chat Application Template](https://creately.com/diagram/example/i8d5u68p3/uml-class-diagram-for-chat-application)
