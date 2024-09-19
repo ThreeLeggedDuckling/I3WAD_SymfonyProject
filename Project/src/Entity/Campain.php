@@ -37,6 +37,10 @@ class Campain
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'campain', orphanRemoval: true)]
     private Collection $files;
 
+    #[ORM\ManyToOne(inversedBy: 'is_master')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $master = null;
+
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -140,6 +144,18 @@ class Campain
                 $file->setCampain(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaster(): ?User
+    {
+        return $this->master;
+    }
+
+    public function setMaster(?User $master): static
+    {
+        $this->master = $master;
 
         return $this;
     }

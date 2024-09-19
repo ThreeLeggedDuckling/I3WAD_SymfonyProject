@@ -20,7 +20,6 @@
 
 ## 2. A faire
 
-- liens User
 - lien réflexif Comment
 - fixtures autres
 
@@ -42,6 +41,8 @@
     - campain, name, creation_date, last_modified, format, type, adress
 - group
     - name
+- group_admin *symf*
+- group_member *symf*
 - session
     - campain, scheduled, run_time
 - user
@@ -51,12 +52,11 @@
 - advert - comment.advert_id (orphanRemoval)
 - campain - session.campain_id (orphanRemoval)
 - campain - file.campain_id (orphanRemoval)
-<!-- - group (1) - group_member.in_group_id (n) / orphanRemoval -->
-<!-- - group_member (1) - campain.game_master_id (n) / NULL -->
-<!-- - group_member (1) - file.author_id (n) -->
-<!-- - user (1) - advert.author_id (n) / orphanRemoval -->
-<!-- - user (1) - comment.author_id (n) / NULL -->
-<!-- - user (1) - group_member.user_id (n) / orphanRemoval -->
+- group - campain
+- user - advert (NULL)
+- user - campain
+- user - comment (NULL)
+- user - file (orphanRemoval)
 
 **Fixtures :**
 - User
@@ -92,4 +92,4 @@
 
 - redirection (dé)connexion
 
-*last update 240919.1314
+*last update 240919.1600

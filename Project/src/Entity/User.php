@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,6 +37,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 100)]
     private ?string $username = null;
+
+    /**
+     * @var Collection<int, Group>
+     */
+    #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'members')]
+    #[ORM\JoinTable(name: 'group_member')]
+    private Collection $groups;
+
+    /**
+     * @var Collection<int, Group>
+     */
+    #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'admins')]
+    #[ORM\JoinTable(name: 'group_admin')]
+    private Collection $is_admin;
+
+    /**
+     * @var Collection<int, Campain>
+     */
+    #[ORM\OneToMany(targetEntity: Campain::class, mappedBy: 'master')]
+    private Collection $is_master;
+
+    /**
+     * @var Collection<int, File>
+     */
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'author', orphanRemoval: true)]
+    private Collection $files;
+
+    /**
+     * @var Collection<int, Advert>
+     */
+    #[ORM\OneToMany(targetEntity: Advert::class, mappedBy: 'author')]
+    private Collection $adverts;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+        $this->is_admin = new ArrayCollection();
+        $this->is_master = new ArrayCollection();
+        $this->files = new ArrayCollection();
+        $this->adverts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +169,174 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): static
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups->add($group);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): static
+    {
+        $this->groups->removeElement($group);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getIsAdmin(): Collection
+    {
+        return $this->is_admin;
+    }
+
+    public function addIsAdmin(Group $isAdmin): static
+    {
+        if (!$this->is_admin->contains($isAdmin)) {
+            $this->is_admin->add($isAdmin);
+        }
+
+        return $this;
+    }
+
+    public function removeIsAdmin(Group $isAdmin): static
+    {
+        $this->is_admin->removeElement($isAdmin);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Campain>
+     */
+    public function getIsMaster(): Collection
+    {
+        return $this->is_master;
+    }
+
+    public function addIsMaster(Campain $isMaster): static
+    {
+        if (!$this->is_master->contains($isMaster)) {
+            $this->is_master->add($isMaster);
+            $isMaster->setMaster($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIsMaster(Campain $isMaster): static
+    {
+        if ($this->is_master->removeElement($isMaster)) {
+            // set the owning side to null (unless already changed)
+            if ($isMaster->getMaster() === $this) {
+                $isMaster->setMaster(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): static
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getAuthor() === $this) {
+                $file->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Advert>
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): static
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts->add($advert);
+            $advert->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): static
+    {
+        if ($this->adverts->removeElement($advert)) {
+            // set the owning side to null (unless already changed)
+            if ($advert->getAuthor() === $this) {
+                $advert->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
 
         return $this;
     }

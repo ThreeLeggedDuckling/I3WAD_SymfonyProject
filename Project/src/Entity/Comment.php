@@ -24,6 +24,9 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Advert $advert = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?User $author = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Comment
     public function setAdvert(?Advert $advert): static
     {
         $this->advert = $advert;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

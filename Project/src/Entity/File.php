@@ -30,11 +30,15 @@ class File
     private ?string $type = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $address = null;
+    private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'files')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campain $campain = null;
+
+    #[ORM\ManyToOne(inversedBy: 'files')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -101,14 +105,14 @@ class File
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function getAdress(): ?string
     {
-        return $this->address;
+        return $this->adress;
     }
 
-    public function setAddress(?string $address): static
+    public function setAdress(?string $adress): static
     {
-        $this->address = $address;
+        $this->adress = $adress;
 
         return $this;
     }
@@ -121,6 +125,18 @@ class File
     public function setCampain(?Campain $campain): static
     {
         $this->campain = $campain;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

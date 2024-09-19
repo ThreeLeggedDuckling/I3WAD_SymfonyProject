@@ -25,9 +25,23 @@ class Group
     #[ORM\OneToMany(targetEntity: Campain::class, mappedBy: 'playing_group', orphanRemoval: true)]
     private Collection $campains;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
+    private Collection $members;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'is_admin')]
+    private Collection $admins;
+
     public function __construct()
     {
         $this->campains = new ArrayCollection();
+        $this->members = new ArrayCollection();
+        $this->admins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,6 +86,60 @@ class Group
             if ($campain->getPlayingGroup() === $this) {
                 $campain->setPlayingGroup(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(User $member): static
+    {
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+            $member->addGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(User $member): static
+    {
+        if ($this->members->removeElement($member)) {
+            $member->removeGroup($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    public function addAdmin(User $admin): static
+    {
+        if (!$this->admins->contains($admin)) {
+            $this->admins->add($admin);
+            $admin->addIsAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(User $admin): static
+    {
+        if ($this->admins->removeElement($admin)) {
+            $admin->removeIsAdmin($this);
         }
 
         return $this;
