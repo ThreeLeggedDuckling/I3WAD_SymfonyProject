@@ -1,19 +1,22 @@
 # Etat du projet
 
+*last update : 240919.1600*
+
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
 2. [Fait](#3-fait)
     1. [Modèle](#1-modèle)
-    2. [Controlleurs](#2-controlleurs)
-    2. [Formulaires](#3-formulaires)
-    2. [Repositories](#4-repositories)
-    2. [Vues](#5-vues)
-    2. [Autre](#6-autre)
+    2. [Fixtures](#2-fixtures)
+    2. [Controlleurs](#3-controlleurs)
+    2. [Formulaires](#4-formulaires)
+    2. [Repositories](#5-repositories)
+    2. [Vues](#6-vues)
+    2. [Autre](#7-autre)
 
 ## 1. Fil conducteur
 
 - [X] Analyse
-    - [ ] ... revoir analyse ?
+    - [ ] ... revoir analyse (encore et toujours)
 - [X] Créer utilisateur
 - [X] Créer système de connexion
 - [ ] Implémenter le modèle
@@ -58,25 +61,26 @@
 - user - comment (NULL)
 - user - file (orphanRemoval)
 
-**Fixtures :**
+### 2. Fixtures
+
 - User
+- Group
 
-
-### 2. Controlleurs
+### 3. Controlleurs
 
 - Home
 - Registration *symf*
 - Security *symf*
 
-### 3. Formulaires
+### 4. Formulaires
 
 - Registration
 
-### 4. Repositories
+### 5. Repositories
 
 (*symf*)
 
-### 5. Vues
+### 6. Vues
 
 - base
 - home
@@ -88,8 +92,6 @@
 - security
     - login *symf*
 
-### 6. Autre
+### 7. Autre
 
 - redirection (dé)connexion
-
-*last update 240919.1600

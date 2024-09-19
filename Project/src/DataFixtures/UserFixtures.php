@@ -18,8 +18,8 @@ class UserFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
-        $nouns = ['table', 'plant', 'starfish'];
         $adjectives = ['red', 'awkward', 'dark'];
+        $nouns = ['table', 'plant', 'starfish'];
         $faker = Factory::create();
 
         for($i = 0; $i < 10; $i++){
@@ -33,6 +33,8 @@ class UserFixtures extends Fixture
                 $user->setEmail("admin{$j}@mail.net");
                 $user->setRoles(['ROLE_ADMIN']);
             }
+
+            $this->addReference("user{$i}", $user);
 
             $manager->persist($user);
         }
