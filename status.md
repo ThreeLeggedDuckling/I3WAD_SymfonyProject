@@ -36,28 +36,28 @@
 
 - advert
     - publish_date, is_open, modality, area, level, content
-- campain
+- campaign
     - playing_group, name, game
 - comment
     - advert, publish_date, content
 - file
-    - campain, name, creation_date, last_modified, format, type, adress
+    - campaign, name, creation_date, last_modified, format, type, adress
 - group
     - name
 - group_admin *symf*
 - group_member *symf*
 - session
-    - campain, scheduled, run_time
+    - campaign, scheduled, run_time
 - user
     - email, roles, password, username
 
 **Liens OneToMany :**
 - advert - comment.advert_id (orphanRemoval)
-- campain - session.campain_id (orphanRemoval)
-- campain - file.campain_id (orphanRemoval)
-- group - campain
+- campaign - session.campaign_id (orphanRemoval)
+- campaign - file.campaign_id (orphanRemoval)
+- group - campaign
 - user - advert (NULL)
-- user - campain
+- user - campaign
 - user - comment (NULL)
 - user - file (orphanRemoval)
 

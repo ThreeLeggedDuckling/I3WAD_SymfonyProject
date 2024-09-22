@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CampainRepository;
+use App\Repository\CampaignRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CampainRepository::class)]
-class Campain
+#[ORM\Entity(repositoryClass: CampaignRepository::class)]
+class Campaign
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,20 +21,20 @@ class Campain
     #[ORM\Column(length: 100)]
     private ?string $game = null;
 
-    #[ORM\ManyToOne(inversedBy: 'campains')]
+    #[ORM\ManyToOne(inversedBy: 'campaigns')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Group $playing_group = null;
 
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'campain', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'campaign', orphanRemoval: true)]
     private Collection $sessions;
 
     /**
      * @var Collection<int, File>
      */
-    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'campain', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'campaign', orphanRemoval: true)]
     private Collection $files;
 
     #[ORM\ManyToOne(inversedBy: 'is_master')]
@@ -100,7 +100,7 @@ class Campain
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-            $session->setCampain($this);
+            $session->setCampaign($this);
         }
 
         return $this;
@@ -110,8 +110,8 @@ class Campain
     {
         if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-            if ($session->getCampain() === $this) {
-                $session->setCampain(null);
+            if ($session->getCampaign() === $this) {
+                $session->setCampaign(null);
             }
         }
 
@@ -130,7 +130,7 @@ class Campain
     {
         if (!$this->files->contains($file)) {
             $this->files->add($file);
-            $file->setCampain($this);
+            $file->setCampaign($this);
         }
 
         return $this;
@@ -140,8 +140,8 @@ class Campain
     {
         if ($this->files->removeElement($file)) {
             // set the owning side to null (unless already changed)
-            if ($file->getCampain() === $this) {
-                $file->setCampain(null);
+            if ($file->getCampaign() === $this) {
+                $file->setCampaign(null);
             }
         }
 

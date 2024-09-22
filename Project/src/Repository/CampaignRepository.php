@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Campain;
+use App\Entity\Campaign;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Campain>
+ * @extends ServiceEntityRepository<Campaign>
  */
-class CampainRepository extends ServiceEntityRepository
+class CampaignRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Campain::class);
+        parent::__construct($registry, Campaign::class);
     }
 
     //    /**
-    //     * @return Campain[] Returns an array of Campain objects
+    //     * @return Campaign[] Returns an array of Campaign objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class CampainRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Campain
+    //    public function findOneBySomeField($value): ?Campaign
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

@@ -20,10 +20,10 @@ class Group
     private ?string $name = null;
 
     /**
-     * @var Collection<int, Campain>
+     * @var Collection<int, Campaign>
      */
-    #[ORM\OneToMany(targetEntity: Campain::class, mappedBy: 'playing_group', orphanRemoval: true)]
-    private Collection $campains;
+    #[ORM\OneToMany(targetEntity: Campaign::class, mappedBy: 'playing_group', orphanRemoval: true)]
+    private Collection $campaigns;
 
     /**
      * @var Collection<int, User>
@@ -39,7 +39,7 @@ class Group
 
     public function __construct()
     {
-        $this->campains = new ArrayCollection();
+        $this->campaigns = new ArrayCollection();
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
     }
@@ -62,29 +62,29 @@ class Group
     }
 
     /**
-     * @return Collection<int, Campain>
+     * @return Collection<int, Campaign>
      */
-    public function getCampains(): Collection
+    public function getCampaigns(): Collection
     {
-        return $this->campains;
+        return $this->campaigns;
     }
 
-    public function addCampain(Campain $campain): static
+    public function addCampaign(Campaign $campaign): static
     {
-        if (!$this->campains->contains($campain)) {
-            $this->campains->add($campain);
-            $campain->setPlayingGroup($this);
+        if (!$this->campaigns->contains($campaign)) {
+            $this->campaigns->add($campaign);
+            $campaign->setPlayingGroup($this);
         }
 
         return $this;
     }
 
-    public function removeCampain(Campain $campain): static
+    public function removeCampaign(Campaign $campaign): static
     {
-        if ($this->campains->removeElement($campain)) {
+        if ($this->campaigns->removeElement($campaign)) {
             // set the owning side to null (unless already changed)
-            if ($campain->getPlayingGroup() === $this) {
-                $campain->setPlayingGroup(null);
+            if ($campaign->getPlayingGroup() === $this) {
+                $campaign->setPlayingGroup(null);
             }
         }
 

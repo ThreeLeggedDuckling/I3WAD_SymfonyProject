@@ -34,7 +34,7 @@ class File
 
     #[ORM\ManyToOne(inversedBy: 'files')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Campain $campain = null;
+    private ?Campaign $campaign = null;
 
     #[ORM\ManyToOne(inversedBy: 'files')]
     #[ORM\JoinColumn(nullable: false)]
@@ -117,14 +117,14 @@ class File
         return $this;
     }
 
-    public function getCampain(): ?Campain
+    public function getCampaign(): ?Campaign
     {
-        return $this->campain;
+        return $this->campaign;
     }
 
-    public function setCampain(?Campain $campain): static
+    public function setCampaign(?Campaign $campaign): static
     {
-        $this->campain = $campain;
+        $this->campaign = $campaign;
 
         return $this;
     }

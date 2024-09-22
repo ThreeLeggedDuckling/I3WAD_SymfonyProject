@@ -22,7 +22,7 @@ class Session
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Campain $campain = null;
+    private ?Campaign $campaign = null;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class Session
         return $this;
     }
 
-    public function getCampain(): ?Campain
+    public function getCampaign(): ?Campaign
     {
-        return $this->campain;
+        return $this->campaign;
     }
 
-    public function setCampain(?Campain $campain): static
+    public function setCampaign(?Campaign $campaign): static
     {
-        $this->campain = $campain;
+        $this->campaign = $campaign;
 
         return $this;
     }

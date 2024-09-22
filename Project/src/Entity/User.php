@@ -53,9 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $is_admin;
 
     /**
-     * @var Collection<int, Campain>
+     * @var Collection<int, Campaign>
      */
-    #[ORM\OneToMany(targetEntity: Campain::class, mappedBy: 'master')]
+    #[ORM\OneToMany(targetEntity: Campaign::class, mappedBy: 'master')]
     private Collection $is_master;
 
     /**
@@ -222,14 +222,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Campain>
+     * @return Collection<int, Campaign>
      */
     public function getIsMaster(): Collection
     {
         return $this->is_master;
     }
 
-    public function addIsMaster(Campain $isMaster): static
+    public function addIsMaster(Campaign $isMaster): static
     {
         if (!$this->is_master->contains($isMaster)) {
             $this->is_master->add($isMaster);
@@ -239,7 +239,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeIsMaster(Campain $isMaster): static
+    public function removeIsMaster(Campaign $isMaster): static
     {
         if ($this->is_master->removeElement($isMaster)) {
             // set the owning side to null (unless already changed)

@@ -13,13 +13,13 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $adjectives = ['awsome_', 'phenomenal_', 'astral_'];
+        $adjectives = ['awsome', 'phenomenal', 'astral'];
         $nouns = ['company', 'fellowship', 'fleet'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 4; $i++){
+        for($i = 0; $i < 3; $i++){
             $group = new Group();
-            $group->setName('the_' . $faker->randomElement($adjectives) . $faker->randomElement($nouns));
+            $group->setName('the_' . $faker->randomElement($adjectives) . '_' . $faker->randomElement($nouns));
             
             for($j = 0; $j < 3; $j++){
                 $group->addMember($this->getReference('user' . rand(0, 9)));
