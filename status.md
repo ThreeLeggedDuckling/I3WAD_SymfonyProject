@@ -24,6 +24,7 @@
 ## 2. A faire
 
 - lien réflexif Comment
+- fixtures Comment
 - fixtures autres
 
 ## 3. Fait
@@ -63,8 +64,12 @@
 
 ### 2. Fixtures
 
-- User
+- Advert
+- Campaign
+- File
 - Group
+- Session
+- User
 
 ### 3. Controlleurs
 
