@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdvertsController!{% endblock %}
+
+{% block body %}
+
+<h1>Welcome adventurers and storytellers!</h1>
+<h2>We were waiting for you</h2>
+
+    <div>
+        <h3>Have a look at the talks of the town</h3>
+
+        {{ dump(latest) }}
+        {% for advert in latest %}
+            <table>
+                <tr>{{ advert.author.username }} - {{ requestTime.diff(advert.publishDate)|date("%i min %s sec")}} ago</tr>
+            </table>
+        {% endfor %}
+    </div>
+
+{% if app.user %}
+
+{% else %}
+
+    <div>
+        As a passing guest, you may only hear about the latest news.<br>
+        Want to see more ? <a href="{{ path ('app_login') }}">Speak friend</a> or <a href="{{ path ('app_register') }}">join us</a>.
+    </div>
+
+{% endif %}
+
+{% endblock %}

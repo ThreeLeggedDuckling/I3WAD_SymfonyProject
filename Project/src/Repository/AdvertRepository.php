@@ -16,28 +16,11 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
-    //    /**
-    //     * @return Advert[] Returns an array of Advert objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Advert
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function latest(){
+        $limit = 3;
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT a FROM App\Entity\Advert a ORDER BY a.id DESC')->setMaxResults(3);
+        $adverts = $query->getResult();
+        return $adverts;
+    }
 }
