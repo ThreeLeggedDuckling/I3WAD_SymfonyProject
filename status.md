@@ -1,6 +1,6 @@
 # Etat du projet
 
-*last update : 240919.1600*
+*last update : 240923.1312*
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -23,15 +23,27 @@
 
 ## 2. A faire
 
-- lien réflexif Comment
-- fixtures Comment
-- fixtures autres
+- vues
+    - advert
+        - board
+        - details
+    - user
+        - afficher
+        - gestion
+    - groupe
+        - main
+        - campaign
+
+- controlleurs
+    - advert
+    - account
+    - group
 
 ## 3. Fait
 
 ### 1. Modèle
 
-**Etat implémentation :** fonctionnelle, incomplète
+**Etat implémentation :** fonctionnelle
 
 **Tables :**
 
@@ -40,7 +52,7 @@
 - campaign
     - playing_group, name, game
 - comment
-    - advert, publish_date, content
+    - advert, author, answer_to, publish_date, content
 - file
     - campaign, name, creation_date, last_modified, format, type, adress
 - group
@@ -56,6 +68,7 @@
 - advert - comment.advert_id (orphanRemoval)
 - campaign - session.campaign_id (orphanRemoval)
 - campaign - file.campaign_id (orphanRemoval)
+- comment - comment.answer_to_id (NULL)
 - group - campaign
 - user - advert (NULL)
 - user - campaign
@@ -66,6 +79,7 @@
 
 - Advert
 - Campaign
+- Comment
 - File
 - Group
 - Session

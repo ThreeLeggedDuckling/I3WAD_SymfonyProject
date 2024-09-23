@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,20 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $author = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'answers')]
+    private ?self $answerTo = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'answerTo')]
+    private Collection $answers;
+
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +92,48 @@ class Comment
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getAnswerTo(): ?self
+    {
+        return $this->answerTo;
+    }
+
+    public function setAnswerTo(?self $answerTo): static
+    {
+        $this->answerTo = $answerTo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(self $answer): static
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers->add($answer);
+            $answer->setAnswerTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(self $answer): static
+    {
+        if ($this->answers->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getAnswerTo() === $this) {
+                $answer->setAnswerTo(null);
+            }
+        }
 
         return $this;
     }

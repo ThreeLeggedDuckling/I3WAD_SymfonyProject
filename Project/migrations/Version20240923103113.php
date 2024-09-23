@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240923093751 extends AbstractMigration
+final class Version20240923103113 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,7 @@ final class Version20240923093751 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE advert (id INT AUTO_INCREMENT NOT NULL, author_id INT DEFAULT NULL, publish_date DATETIME NOT NULL, is_open TINYINT(1) NOT NULL, modality VARCHAR(30) DEFAULT NULL, area VARCHAR(30) DEFAULT NULL, level VARCHAR(30) DEFAULT NULL, content LONGTEXT NOT NULL, INDEX IDX_54F1F40BF675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE campaign (id INT AUTO_INCREMENT NOT NULL, playing_group_id INT NOT NULL, master_id INT NOT NULL, name VARCHAR(75) DEFAULT NULL, game VARCHAR(100) NOT NULL, INDEX IDX_1F1512DDAA5A705F (playing_group_id), INDEX IDX_1F1512DD13B3DB11 (master_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, advert_id INT NOT NULL, author_id INT DEFAULT NULL, publish_date DATETIME NOT NULL, content LONGTEXT NOT NULL, INDEX IDX_9474526CD07ECCB6 (advert_id), INDEX IDX_9474526CF675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, advert_id INT NOT NULL, author_id INT DEFAULT NULL, answer_to_id INT DEFAULT NULL, publish_date DATETIME NOT NULL, content LONGTEXT NOT NULL, INDEX IDX_9474526CD07ECCB6 (advert_id), INDEX IDX_9474526CF675F31B (author_id), INDEX IDX_9474526CAB0FA336 (answer_to_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, campaign_id INT NOT NULL, author_id INT NOT NULL, name VARCHAR(100) NOT NULL, creation_date DATETIME NOT NULL, last_modified DATETIME DEFAULT NULL, format VARCHAR(10) DEFAULT NULL, type VARCHAR(35) DEFAULT NULL, adress LONGTEXT DEFAULT NULL, INDEX IDX_8C9F3610F639F774 (campaign_id), INDEX IDX_8C9F3610F675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `group` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE session (id INT AUTO_INCREMENT NOT NULL, campaign_id INT NOT NULL, scheduled DATETIME NOT NULL, run_time INT DEFAULT NULL, INDEX IDX_D044D5D4F639F774 (campaign_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -35,6 +35,7 @@ final class Version20240923093751 extends AbstractMigration
         $this->addSql('ALTER TABLE campaign ADD CONSTRAINT FK_1F1512DD13B3DB11 FOREIGN KEY (master_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CD07ECCB6 FOREIGN KEY (advert_id) REFERENCES advert (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CAB0FA336 FOREIGN KEY (answer_to_id) REFERENCES comment (id)');
         $this->addSql('ALTER TABLE file ADD CONSTRAINT FK_8C9F3610F639F774 FOREIGN KEY (campaign_id) REFERENCES campaign (id)');
         $this->addSql('ALTER TABLE file ADD CONSTRAINT FK_8C9F3610F675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE session ADD CONSTRAINT FK_D044D5D4F639F774 FOREIGN KEY (campaign_id) REFERENCES campaign (id)');
@@ -52,6 +53,7 @@ final class Version20240923093751 extends AbstractMigration
         $this->addSql('ALTER TABLE campaign DROP FOREIGN KEY FK_1F1512DD13B3DB11');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CD07ECCB6');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CF675F31B');
+        $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CAB0FA336');
         $this->addSql('ALTER TABLE file DROP FOREIGN KEY FK_8C9F3610F639F774');
         $this->addSql('ALTER TABLE file DROP FOREIGN KEY FK_8C9F3610F675F31B');
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4F639F774');
