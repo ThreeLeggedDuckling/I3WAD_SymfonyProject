@@ -16,11 +16,25 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
+    // 3 latest advert posted (and still open)
     public function latest(){
-        $limit = 3;
         $em = $this->getEntityManager();
-        $query = $em->createQuery('SELECT a FROM App\Entity\Advert a ORDER BY a.id DESC')->setMaxResults(3);
+        $query = $em->createQuery(
+            'SELECT a
+            FROM App\Entity\Advert a
+            WHERE a.isOpen = true
+            ORDER BY a.id DESC')->setMaxResults(3);
         $adverts = $query->getResult();
         return $adverts;
     }
+
+
+    // 'SELECT a, c
+    // FROM App\Entity\Advert a
+    // LEFT OUTER JOIN a.comments c
+    // WHERE a.isOpen = true
+    // ORDER BY a.id DESC');
+
+    // ->setMaxResults(3);
+
 }

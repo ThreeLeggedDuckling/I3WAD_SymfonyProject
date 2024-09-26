@@ -4,17 +4,28 @@
 
 {% block body %}
 
-<h1>Welcome adventurers and storytellers!</h1>
+<h1>Greetings adventurers and storytellers!</h1>
 <h2>We were waiting for you</h2>
 
     <div>
         <h3>Have a look at the talks of the town</h3>
 
-        {{ dump(latest) }}
         {% for advert in latest %}
+
             <table>
-                <tr>{{ advert.author.username }} - {{ requestTime.diff(advert.publishDate)|date("%i min %s sec")}} ago</tr>
+                <tr><td>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</td></tr>
+                <tr><td>Level : {{ advert.level }}</td></tr>
+                {% if advert.modality %}
+                    <tr><td>Modality : {{ advert.modality }}</td></tr>
+                {% endif %}
+                {% if advert.area %}
+                    <tr><td>Around : {{ advert.area }}</td></tr>
+                {% endif %}
+                <tr><td>{{ advert.content }}</td></tr>
+                <tr><td>{{ advert.comments|length }} comments</td></tr>
             </table>
+            <hr>
+            
         {% endfor %}
     </div>
 
@@ -23,8 +34,8 @@
 {% else %}
 
     <div>
-        As a passing guest, you may only hear about the latest news.<br>
-        Want to see more ? <a href="{{ path ('app_login') }}">Speak friend</a> or <a href="{{ path ('app_register') }}">join us</a>.
+        <p>As a passing guest, you may only hear about the latest news.</p>
+        <p>Want to see more ? <a href="{{ path ('app_login') }}">Speak friend</a> or <a href="{{ path ('app_register') }}">join us</a></p>.
     </div>
 
 {% endif %}

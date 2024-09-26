@@ -1,6 +1,6 @@
 # Etat du projet
 
-*last update : 240923.1312*
+*last update : 240926.2011*
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -19,7 +19,11 @@
     - [ ] ... revoir analyse (encore et toujours)
 - [X] Créer utilisateur
 - [X] Créer système de connexion
-- [ ] Implémenter le modèle
+- [X] Implémenter le modèle
+- [ ] Programmer les fonctionnalités des annonces (adverts)
+- [ ] Programmer les fonctionnalités des groupes
+- [ ] Programmer les fonctionnalités des campagnes
+- [ ] Programmer les fonctionnalités de gestion de compte utilisateur
 
 ## 2. A faire
 
@@ -38,6 +42,9 @@
     - advert
     - account
     - group
+
+- formulaires
+    - filtres affichage annonces
 
 ## 3. Fait
 
@@ -87,6 +94,8 @@
 
 ### 3. Controlleurs
 
+- Adverts
+    - index
 - Home
 - Registration *symf*
 - Security *symf*
@@ -97,11 +106,14 @@
 
 ### 5. Repositories
 
-(*symf*)
+- Advert
+    - `latest()`
 
 ### 6. Vues
 
 - base
+- adverts
+    - index
 - home
     - index
 - includes
@@ -113,4 +125,11 @@
 
 ### 7. Autre
 
-- redirection (dé)connexion
+- config/packages/security.yaml
+    - redirection (dé)connexion
+- config/services.yaml
+    - ajout service extension Twig
+- src/Twig/DateIntervalExtension.php
+    - `timeAgo()`
+- .env
+    - configuration connexion db
