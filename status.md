@@ -96,12 +96,14 @@
 
 - Adverts
     - index
+    - display
 - Home
 - Registration *symf*
 - Security *symf*
 
 ### 4. Formulaires
 
+- Advert
 - Registration
 
 ### 5. Repositories
@@ -114,6 +116,7 @@
 - base
 - adverts
     - index
+    - detail
 - home
     - index
 - includes

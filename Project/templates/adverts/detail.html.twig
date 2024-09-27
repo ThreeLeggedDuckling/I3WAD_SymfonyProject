@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdvertsController!{% endblock %}
+
+{% block body %}
+
+{# <div>author : {{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</div> #}
+
+{% if not app.user %}
+
+    <h2>Oh ...</h2>
+
+        <div>
+            <p>Sorry traveler, we need to know you a bit more to show you everything.<br>
+            <a href="{{ path ('app_login') }}">Speak friend</a> or <a href="{{ path ('app_register') }}">join us</a>.</p>
+        </div>
+        <p>devnote : prévoir redirection ici après connexion<p>
+
+{% else %}
+
+
+
+{% endif %}
+
+{% endblock %}
