@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Advert;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\AdvertRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +23,36 @@ class AdvertsController extends AbstractController
         return $this->render('adverts/index.html.twig', $vars);
     }
 
-    // REPRENDRE ICI
-    #[Route('/adverts/detail/{advert}', name: 'app_adverts_detail')]
-    public function advertDisplay(Request $req): Response
+    #[Route('/adverts/detail/{id}', name: 'app_adverts_detail')]
+    public function advertDisplay(Request $req, EntityManagerInterface $em): Response
     {
-        $advert = $req->get('advert');
+        $id = $req->get('id');
+        $advert = $em->getRepository(Advert::class)->findOneBy(['id' => $id]);
 
-        return $this->render('adverts/detail.html.twig');
+        $comment = new Comment();
+
+        // pas clair pourquoi bug mais présentement : flemme
+        // $comment->setPublishDate(new \DateTime());
+
+        $newComment = $this->createForm(CommentType::class, $comment);
+        $newComment->handleRequest($req);
+
+        if($newComment->isSubmitted() && $newComment->isValid()){
+            $comment->setAdvert($advert);
+            $comment->setAuthor($this->getUser());
+            $comment->setPublishDate(new \DateTime());
+
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('app_advert_detail', ['id' => $id]);
+        }
+
+        $vars = [
+            'advert' => $advert,
+            'newComment' => $newComment,
+        ];
+
+        return $this->render('adverts/detail.html.twig', $vars);
     }
 }

@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{# include cette partie ? #}
 <h1>Greetings adventurers and storytellers!</h1>
 <h2>We were waiting for you</h2>
 
@@ -12,18 +13,19 @@
 
         {% for advert in latest %}
 
-            <table>
-                <tr><td>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</td></tr>
-                <tr><td>Level : {{ advert.level }}</td></tr>
+            <div class='advert' onclick='window.location="{{ path ('app_adverts_detail', {id:advert.id}) }}"'>
+                <p>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</p>
+                <p>Level : {{ advert.level }}</p>
                 {% if advert.modality %}
-                    <tr><td>Modality : {{ advert.modality }}</td></tr>
+                    <p>Modality : {{ advert.modality }}</p>
                 {% endif %}
                 {% if advert.area %}
-                    <tr><td>Around : {{ advert.area }}</td></tr>
+                    <p>Around : {{ advert.area }}</p>
                 {% endif %}
-                <tr><td>{{ advert.content }}</td></tr>
-                <tr><td>{{ advert.comments|length }} comments</td></tr>
-            </table>
+                <p>{{ advert.content }}</p>  {# limite taille texte #}
+                <p>{{ advert.comments|length }} comments</p>
+            </div>
+
             <hr>
             
         {% endfor %}

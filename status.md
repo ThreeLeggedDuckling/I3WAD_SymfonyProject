@@ -40,6 +40,7 @@
 
 - controlleurs
     - advert
+        - finir fonction nouveau commentaire
     - account
     - group
 
@@ -96,14 +97,15 @@
 
 - Adverts
     - index
-    - display
+    - advertDisplay
 - Home
 - Registration *symf*
 - Security *symf*
 
 ### 4. Formulaires
 
-- Advert
+- Advert *symf*
+- Comment *symf*
 - Registration
 
 ### 5. Repositories
@@ -128,11 +130,11 @@
 
 ### 7. Autre
 
-- config/packages/security.yaml
+- config/packages/**security.yaml**
     - redirection (dé)connexion
-- config/services.yaml
+- config/**services.yaml**
     - ajout service extension Twig
-- src/Twig/DateIntervalExtension.php
+- src/Twig/**DateIntervalExtension.php**
     - `timeAgo()`
-- .env
+- **.env**
     - configuration connexion db
