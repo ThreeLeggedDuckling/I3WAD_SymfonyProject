@@ -31,9 +31,6 @@ class AdvertsController extends AbstractController
 
         $comment = new Comment();
 
-        // pas clair pourquoi bug mais présentement : flemme
-        // $comment->setPublishDate(new \DateTime());
-
         $newComment = $this->createForm(CommentType::class, $comment);
         $newComment->handleRequest($req);
 
@@ -45,7 +42,7 @@ class AdvertsController extends AbstractController
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirectToRoute('app_advert_detail', ['id' => $id]);
+            return $this->redirectToRoute('app_adverts_detail', ['id' => $id]);
         }
 
         $vars = [

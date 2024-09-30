@@ -60,6 +60,7 @@
 
         {# trouver comment gérer réponse à #}
         {{ form_widget(newComment.content) }}
+        {{ form_widget(newComment._token) }}
         <input type="submit" value="Send">
 
         {{ form_end(newComment, {render_rest:false}) }}

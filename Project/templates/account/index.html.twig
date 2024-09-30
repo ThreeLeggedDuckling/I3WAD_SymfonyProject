@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.user.username }}{% endblock %}
+
+{% block body %}
+
+<a href="{{ path ('app_manage_account', {id:app.user.id}) }}">Manage Account</a>
+
+<div>
+    <h1>My adverts</h1>
+
+    {% for advert in app.user.adverts %}
+        <ul>
+            <li><a href="{{ path ('app_adverts_detail', {id:advert.id}) }}">[advert]</a></li>
+        </ul>
+    {% endfor %}
+</div>
+
+<div>
+    <h1>My interactions</h1>
+
+    {% for comment in app.user.comments %}
+        <ul>
+            <li><a href="">[comments]</a></li>
+        </ul>
+    {% endfor %}
+</div>
+
+<div>
+    <h1>My groups</h1>
+
+    {% for group in app.user.groups %}
+        <ul>
+            <li>
+                <a href="">[{{ group.name }}]</a>
+
+                {% if group in app.user.getIsAdmin() %}
+                    <a href="">[manage]</a>
+                {% endif %}
+                
+            </li>
+        </ul>
+    {% endfor %}
+</div>
+
+<div>
+    <h1>My next sessions</h1>
+
+    devnote: à faire, présentement flemme
+</div>
+
+{% endblock %}

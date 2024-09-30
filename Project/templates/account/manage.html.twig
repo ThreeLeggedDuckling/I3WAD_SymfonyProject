@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.user.username }}{% endblock %}
+
+{% block body %}
+
+<h1>Manage Account</h1>
+
+{{ dump(app.user) }}
+
+<div>
+    <h2>Account settings</h2>
+    {{ form_start(userdata) }}
+    {{ form_end(userdata) }}
+</div>
+
+
+{% endblock %}

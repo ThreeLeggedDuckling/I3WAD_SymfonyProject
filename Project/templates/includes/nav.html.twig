@@ -8,9 +8,8 @@
         {% if is_granted('ROLE_ADMIN') %}
 	    	<a href="">Admin</a>
         {% endif %}
-        
-		{{ app.user.username }}
-		<a href="">Manage Account</a>
+		
+		<a href="{{ path ('app_account') }}">{{ app.user.username }}</a>
 		<a href="{{ path ('app_logout') }}">Log Out</a>
 
 	{% else %}
