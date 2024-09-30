@@ -9,9 +9,27 @@
 {{ dump(app.user) }}
 
 <div>
-    <h2>Account settings</h2>
-    {{ form_start(userdata) }}
-    {{ form_end(userdata) }}
+    <h2>Account Settings</h2>
+
+    <h3>Change email</h3>
+    {{ form_start(emailForm) }}
+    {{ form_row(emailForm.email) }}
+    <input type="submit" value='Change Email'>
+    {{ form_end(emailForm) }}
+
+    <hr>
+
+    <h3>Set new password</h3>
+    {{ form_start(passwordForm) }}
+    {{ form_row(passwordForm.password) }}
+    <input type="submit" value='Change Password'>
+    {{ form_end(passwordForm) }}
+</div>
+
+<div>
+    <h2>Delete Account</h2>
+
+    <a href="">Delete account</a>
 </div>
 
 
