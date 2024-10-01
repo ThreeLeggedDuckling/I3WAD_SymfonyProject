@@ -1,0 +1,25 @@
+<h1>Greetings adventurers and storytellers!</h1>
+<h2>We were waiting for you</h2>
+
+<div>
+    <h3>Have a look at the talks of the town</h3>
+
+    {% for advert in latest %}
+
+        <div class='advert' onclick='window.location="{{ path ('app_adverts_detail', {id:advert.id}) }}"'>
+            <p>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</p>
+            <p>Level : {{ advert.level }}</p>
+            {% if advert.modality %}
+                <p>Modality : {{ advert.modality }}</p>
+            {% endif %}
+            {% if advert.area %}
+                <p>Around : {{ advert.area }}</p>
+            {% endif %}
+            <p>{{ advert.content }}</p>  {# limite taille texte #}
+            <p>{{ advert.comments|length }} comments</p>
+        </div>
+
+        <hr>
+        
+    {% endfor %}
+</div>
