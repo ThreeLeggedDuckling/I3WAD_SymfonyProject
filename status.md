@@ -1,6 +1,6 @@
 # Etat du projet
 
-*last update : 241001.0910*
+*last update : 241001.1212*
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -11,7 +11,8 @@
     2. [Formulaires](#4-formulaires)
     2. [Repositories](#5-repositories)
     2. [Vues](#6-vues)
-    2. [Autre](#7-autre)
+    2. [Assets](#7-assets)
+    2. [Autre](#8-autre)
 
 ## 1. Fil conducteur
 
@@ -31,18 +32,27 @@
     - advert
         - board
         - details
-    - user
-        - afficher
-        - gestion
+    - account
+        - display
+        - manage
+        - confirm delete
     - groupe
+        - display
         - main
         - campaign
 
 - controlleurs
     - advert
+        - nouveau post
         - finir fonction nouveau commentaire
     - account
+        - modification mail
+        - modification mdp
+        - supression compte
     - group
+        - nouveau groupe
+        - gestion
+
 
 - formulaires
     - filtres affichage annonces
@@ -138,7 +148,12 @@
 - security
     - login *symf*
 
-### 7. Autre
+### 7. Assets
+
+- app.js
+    - import Bootstrap
+
+### 8. Autre
 
 - config/packages/**security.yaml**
     - redirection (dé)connexion
@@ -148,3 +163,4 @@
     - `timeAgo()`
 - **.env**
     - configuration connexion db
+- **webpack.config.js**
