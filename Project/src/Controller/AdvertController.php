@@ -19,6 +19,7 @@ final class AdvertController extends AbstractController
     {
         return $this->render('advert/index.html.twig', [
             'adverts' => $advertRepository->findAll(),
+            'latest' => $advertRepository->latest(),
         ]);
     }
 

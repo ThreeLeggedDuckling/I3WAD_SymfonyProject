@@ -6,7 +6,7 @@
 
     {% for advert in latest %}
 
-        <div class='advert' onclick='window.location="{{ path ('app_adverts_detail', {id:advert.id}) }}"'>
+        <div class='advert' onclick='window.location="{{ path ('app_advert_show', {id:advert.id}) }}"'>
             <p>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</p>
             <p>Level : {{ advert.level }}</p>
             {% if advert.modality %}
