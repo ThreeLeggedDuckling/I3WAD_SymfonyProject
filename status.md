@@ -1,6 +1,6 @@
 # Etat du projet
 
-*last update : 240926.2011*
+*last update : 241001.0910*
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -20,10 +20,10 @@
 - [X] Créer utilisateur
 - [X] Créer système de connexion
 - [X] Implémenter le modèle
+- [ ] Programmer les fonctionnalités de gestion de compte utilisateur
 - [ ] Programmer les fonctionnalités des annonces (adverts)
 - [ ] Programmer les fonctionnalités des groupes
 - [ ] Programmer les fonctionnalités des campagnes
-- [ ] Programmer les fonctionnalités de gestion de compte utilisateur
 
 ## 2. A faire
 
@@ -95,6 +95,10 @@
 
 ### 3. Controlleurs
 
+- Account
+    - index
+    - manage
+    - delete (à faire)
 - Adverts
     - index
     - advertDisplay
@@ -106,6 +110,8 @@
 
 - Advert *symf*
 - Comment *symf*
+- NewMail
+- NewPassword
 - Registration
 
 ### 5. Repositories
@@ -116,12 +122,16 @@
 ### 6. Vues
 
 - base
+- account
+    - index
+    - manage
 - adverts
     - index
     - detail
 - home
     - index
 - includes
+    - latest_ad (?)
     - nav
 - registration
     - register
