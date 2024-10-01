@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advert index{% endblock %}
+
+{% block body %}
+    <h1>Advert index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>PublishDate</th>
+                <th>IsOpen</th>
+                <th>Modality</th>
+                <th>Area</th>
+                <th>Level</th>
+                <th>Content</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advert in adverts %}
+            <tr>
+                <td>{{ advert.id }}</td>
+                <td>{{ advert.publishDate ? advert.publishDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ advert.isOpen ? 'Yes' : 'No' }}</td>
+                <td>{{ advert.modality }}</td>
+                <td>{{ advert.area }}</td>
+                <td>{{ advert.level }}</td>
+                <td>{{ advert.content }}</td>
+                <td>
+                    <a href="{{ path('app_advert_show', {'id': advert.id}) }}">show</a>
+                    <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_advert_new') }}">Create new</a>
+{% endblock %}

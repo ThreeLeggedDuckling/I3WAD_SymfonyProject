@@ -1,7 +1,7 @@
 <nav>
 
 	<a href="{{ path ('app_home') }}">Home</a>
-	<a href="{{ path ('app_adverts') }}">Adverts</a>
+	<a href="{{ path ('app_advert_index') }}">Adverts</a>
 
 	{% if app.user %}
 
@@ -9,7 +9,7 @@
 	    	<a href="">Admin</a>
         {% endif %}
 		
-		<a href="{{ path ('app_account') }}">{{ app.user.username }}</a>
+		<a href="">{{ app.user.username }}</a>
 		<a href="{{ path ('app_logout') }}">Log Out</a>
 
 	{% else %}
