@@ -23,13 +23,7 @@ class Advert
     private ?bool $isOpen = null;
 
     #[ORM\Column(length: 30, nullable: true)]
-    private ?string $modality = null;
-
-    #[ORM\Column(length: 30, nullable: true)]
     private ?string $area = null;
-
-    #[ORM\Column(length: 30, nullable: true)]
-    private ?string $level = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
@@ -43,9 +37,16 @@ class Advert
     #[ORM\ManyToOne(inversedBy: 'adverts')]
     private ?User $author = null;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'adverts')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,18 +78,6 @@ class Advert
         return $this;
     }
 
-    public function getModality(): ?string
-    {
-        return $this->modality;
-    }
-
-    public function setModality(?string $modality): static
-    {
-        $this->modality = $modality;
-
-        return $this;
-    }
-
     public function getArea(): ?string
     {
         return $this->area;
@@ -97,18 +86,6 @@ class Advert
     public function setArea(?string $area): static
     {
         $this->area = $area;
-
-        return $this;
-    }
-
-    public function getLevel(): ?string
-    {
-        return $this->level;
-    }
-
-    public function setLevel(?string $level): static
-    {
-        $this->level = $level;
 
         return $this;
     }
@@ -163,6 +140,30 @@ class Advert
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

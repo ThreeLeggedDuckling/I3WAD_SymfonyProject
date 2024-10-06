@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Advert;
+use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,13 +19,16 @@ class AdvertType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('isOpen')
-            ->add('modality')
             ->add('area')
-            ->add('level')
             ->add('content')
             ->add('author', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
+            ])
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }

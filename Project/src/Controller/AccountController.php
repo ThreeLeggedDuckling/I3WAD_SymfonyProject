@@ -14,21 +14,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/account')]
 final class AccountController extends AbstractController
 {
-    #[Route(name: 'app_account_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
+    public function show(User $user): Response
     {
-        return $this->render('account/index.html.twig');
+        return $this->render('account/show.html.twig', [
+            'user' => $user,
+        ]);
     }
 
-    // pas besoin ?
-    // #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
-    // public function show(User $user): Response
-    // {
-    //     return $this->render('account/show.html.twig', [
-    //         'user' => $user,
-    //     ]);
-    // }
-
+    // editer redirect post modif
     #[Route('/{id}/edit', name: 'app_account_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -38,6 +32,7 @@ final class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            // modif ici
             return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -47,6 +42,7 @@ final class AccountController extends AbstractController
         ]);
     }
 
+    // editer redirect post modif
     #[Route('/{id}', name: 'app_account_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -54,7 +50,8 @@ final class AccountController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
         }
-
+        
+        // modif ici
         return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
     }
 }

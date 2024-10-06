@@ -1,48 +1,24 @@
-<h1>Greetings adventurers and storytellers!</h1>
-<h2>We were waiting for you</h2>
-
-<div>
-    <h3>Have a look at the talks of the town</h3>
-
+<div class="d-flex justify-content-around">
     {% for advert in latest %}
 
         <div class="card w-25">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between flex-wrap">
                 <h5>{{ advert.author.username }}</h5>
-                <p>{{ timeAgo(advert.publishDate).text }}</p>
+                <p class="align-self-end">{{ timeAgo(advert.publishDate).text }}</p>
             </div>
             <div class="card-body">
                 <p class="card-text">{{ advert.content }}</p>
-                <p class="card-text">Level : {{ advert.level }}</p>
-                <p class="card-text">Modality : 
-                {% if advert.modality %}
-                    {{ advert.modality }}</p>
-                {% else %}
-                    unspecified
-                {% endif %}
-                <p class="card-text">Around : 
-                {% if advert.area %}
-                    {{ advert.area }}</p>
-                {% else %}
-                    unspecified
-                {% endif %}
+                <div class="d-flex justify-content-between flex-wrap">
+                    {% for tag in advert.tags %}
+                        <p>{{ tag.name }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class='card-footer d-flex justify-content-end'>
+                {{ advert.comments|length }} comments
             </div>
         </div>
-
-        <div class='advert' onclick='window.location="{{ path ('app_advert_show', {id:advert.id}) }}"'>
-            <p>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</p>
-            <p>Level : {{ advert.level }}</p>
-            {% if advert.modality %}
-                <p>Modality : {{ advert.modality }}</p>
-            {% endif %}
-            {% if advert.area %}
-                <p>Around : {{ advert.area }}</p>
-            {% endif %}
-            <p>{{ advert.content }}</p>  {# limite taille texte #}
-            <p>{{ advert.comments|length }} comments</p>
-        </div>
-
-        <hr>
         
     {% endfor %}
 </div>
+{# {{ dump(latest) }} #}

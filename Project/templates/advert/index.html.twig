@@ -3,9 +3,6 @@
 {% block title %}Advert index{% endblock %}
 
 {% block body %}
-
-{% include "/includes/latest_ad.html.twig" %}
-
     <h1>Advert index</h1>
 
     <table class="table">
@@ -14,9 +11,7 @@
                 <th>Id</th>
                 <th>PublishDate</th>
                 <th>IsOpen</th>
-                <th>Modality</th>
                 <th>Area</th>
-                <th>Level</th>
                 <th>Content</th>
                 <th>actions</th>
             </tr>
@@ -27,9 +22,7 @@
                 <td>{{ advert.id }}</td>
                 <td>{{ advert.publishDate ? advert.publishDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ advert.isOpen ? 'Yes' : 'No' }}</td>
-                <td>{{ advert.modality }}</td>
                 <td>{{ advert.area }}</td>
-                <td>{{ advert.level }}</td>
                 <td>{{ advert.content }}</td>
                 <td>
                     <a href="{{ path('app_advert_show', {'id': advert.id}) }}">show</a>
@@ -38,7 +31,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

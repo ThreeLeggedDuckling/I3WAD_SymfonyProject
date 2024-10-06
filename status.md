@@ -1,6 +1,6 @@
 # Etat du projet
 
-*last update : 241001.1212*
+*last update : 241006.21:50*
 
 1. [Fil conducteur](#1-fil-conducteur)
 2. [A faire](#2-a-faire)
@@ -61,12 +61,13 @@
 
 ### 1. Modèle
 
-**Etat implémentation :** fonctionnelle
+**Etat implémentation :** fonctionnel
 
 **Tables :**
 
 - advert
-    - publish_date, is_open, modality, area, level, content
+    - publish_date, is_open, area, content
+- advert_tag *symf*
 - campaign
     - playing_group, name, game
 - comment
@@ -79,6 +80,8 @@
 - group_member *symf*
 - session
     - campaign, scheduled, run_time
+- tag
+    - name, type
 - user
     - email, roles, password, username
 
@@ -101,17 +104,13 @@
 - File
 - Group
 - Session
+- Tag
 - User
 
 ### 3. Controlleurs
 
-- Account
-    - index
-    - manage
-    - delete (à faire)
 - Adverts
-    - index
-    - advertDisplay
+    - (CRUD *symf*)
 - Home
 - Registration *symf*
 - Security *symf*
@@ -119,7 +118,6 @@
 ### 4. Formulaires
 
 - Advert *symf*
-- Comment *symf*
 - NewMail
 - NewPassword
 - Registration
@@ -133,15 +131,21 @@
 
 - base
 - account
-    - index
-    - manage
+    - _delete_form *symf*
+    - _form *symf*
+    - edit *symf*
+    - show *symf*
 - adverts
-    - index
-    - detail
+    - _delete_form *symf*
+    - _form *symf*
+    - edit *symf*
+    - index *symf*
+    - new *symf*
+    - show *symf*
 - home
     - index
 - includes
-    - latest_ad (?)
+    - latest_ad
     - nav
 - registration
     - register
@@ -150,8 +154,8 @@
 
 ### 7. Assets
 
-- app.js
-    - import Bootstrap
+- app.js : import Bootstrap
+- dNav.js : onglets nav dynamiques (marche pas mais bon)
 
 ### 8. Autre
 
