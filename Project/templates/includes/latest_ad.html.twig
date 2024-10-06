@@ -6,6 +6,29 @@
 
     {% for advert in latest %}
 
+        <div class="card w-25">
+            <div class="card-header">
+                <h5>{{ advert.author.username }}</h5>
+                <p>{{ timeAgo(advert.publishDate).text }}</p>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ advert.content }}</p>
+                <p class="card-text">Level : {{ advert.level }}</p>
+                <p class="card-text">Modality : 
+                {% if advert.modality %}
+                    {{ advert.modality }}</p>
+                {% else %}
+                    unspecified
+                {% endif %}
+                <p class="card-text">Around : 
+                {% if advert.area %}
+                    {{ advert.area }}</p>
+                {% else %}
+                    unspecified
+                {% endif %}
+            </div>
+        </div>
+
         <div class='advert' onclick='window.location="{{ path ('app_advert_show', {id:advert.id}) }}"'>
             <p>{{ advert.author.username }} ({{ timeAgo(advert.publishDate).text }})</p>
             <p>Level : {{ advert.level }}</p>

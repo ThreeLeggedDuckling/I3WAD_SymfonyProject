@@ -1,23 +1,60 @@
-<nav>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark justify-content-end">	{# trouver pourquoi justify pas end #}
 
-	<a href="{{ path ('app_home') }}">Home</a>
-	<a href="{{ path ('app_advert_index') }}">Adverts</a>
+	{# navbar settings #}
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+  	</button>
 
-	{% if app.user %}
+	{# nav links #}
+  	<div class="collapse navbar-collapse" id="navbarNav">
+    	<ul class="navbar-nav">
 
-        {% if is_granted('ROLE_ADMIN') %}
-	    	<a href="">Admin</a>
-        {% endif %}
-		
-		<a href="">{{ app.user.username }}</a>
-		<a href="{{ path ('app_logout') }}">Log Out</a>
+			<li class="nav-item">
+				{# exemple BS
+				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> #}
+				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}" href="{{ path ('app_home') }}">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_advert_index' %}active{% endif %}" href="{{ path ('app_advert_index') }}">Adverts</a>
+			</li>
 
-	{% else %}
+			{% if app.user %}
 
-		<a href="{{ path ('app_register') }}">Sign Up</a>
-		<a href="{{ path ('app_login') }}">Log In</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="">Admin</a>
+					</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="">{{ app.user.username }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path ('app_logout') }}">Log Out</a>
+				</li>
 
-	{% endif %}
+			{% else %}
+
+				<li class="nav-item">
+					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}" href="{{ path ('app_register') }}">Sign Up</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path ('app_login') }}">Log In</a>
+				</li>
+
+			{% endif %}
+
+    	</ul>
+  	</div>
 	
 </nav>
-<hr>
+
+{#  {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %} #}
+{# <pre>
+	{{ dump(app.request.attributes.get('_route')) }}
+</pre> #}
+
+{# trouver pourquoi marche pas pour rendre truc plus simple / propre #}
+{# {% block dNav %}
+	{{ encore_entry_script_tags('app') }}
+	{{ encore_entry_link_tags('dNav') }}
+{% endblock %} #}
