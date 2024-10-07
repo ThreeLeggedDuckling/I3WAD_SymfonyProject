@@ -15,7 +15,7 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for($i = 0; $i < 3; $i++){
+        for($i = 0; $i < 5; $i++){
             $advert = new Advert();
             $advert->setAuthor($this->getReference('user' . rand(0, 9)));
             $advert->setPublishDate(new \DateTime());
@@ -29,11 +29,8 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
             }
             $advert->addTag($this->getReference('tagLevel' . rand(0, 3)));
             $advert->addTag($this->getReference('tagModality' . rand(0, 2)));
-            // if(! $advert->getTags()->contains($this->getReference('tagModality0'))){
-            //     $advert->setArea($faker->city());
-            // }
+            $advert->setArea($faker->city());
 
-            
             $this->addReference("advert{$i}", $advert);
             $manager->persist($advert);
         }
@@ -43,8 +40,8 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies(){
         return [
-            UserFixtures::class,
             TagFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

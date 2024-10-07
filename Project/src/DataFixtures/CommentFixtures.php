@@ -16,7 +16,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
         for($i = 0; $i < 15; $i++){
             $comment = new Comment();
-            $comment->setAdvert($this->getReference('advert' . rand(0,2)));
+            $comment->setAdvert($this->getReference('advert' . rand(0,4)));
             $comment->setPublishDate(new \DateTime());
             $comment->setAuthor($this->getReference('user' . rand(0,9)));
             $comment->setContent($faker->sentence());

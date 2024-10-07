@@ -18,8 +18,8 @@ class UserFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
-        $adjectives = ['great', 'awkward', 'dark', 'funny', 'weird'];
-        $nouns = ['table', 'plant', 'starfish', 'ninja', 'fruit', 'mess'];
+        $adjectives = ['great', 'awkward', 'dark', 'funny', 'weird', 'awesome', 'ancient'];
+        $nouns = ['table', 'plant', 'starfish', 'ninja', 'fruit', 'mess', 'gremlin', 'sock'];
         $faker = Factory::create();
 
         for($i = 0; $i < 10; $i++){

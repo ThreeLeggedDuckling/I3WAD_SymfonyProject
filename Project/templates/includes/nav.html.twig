@@ -26,7 +26,7 @@
 					</li>
 				{% endif %}
 				<li class="nav-item">
-					<a class="nav-link" href="">{{ app.user.username }}</a>
+					<a class="nav-link" href="{{ path ('app_account_show') }}">{{ app.user.username }}</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path ('app_logout') }}">Log Out</a>
