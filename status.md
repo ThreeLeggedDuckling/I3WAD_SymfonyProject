@@ -1,19 +1,5 @@
 # Etat du projet
 
-*last update : 241006.21:50*
-
-1. [Fil conducteur](#1-fil-conducteur)
-2. [A faire](#2-a-faire)
-2. [Fait](#3-fait)
-    1. [Modèle](#1-modèle)
-    2. [Fixtures](#2-fixtures)
-    2. [Controlleurs](#3-controlleurs)
-    2. [Formulaires](#4-formulaires)
-    2. [Repositories](#5-repositories)
-    2. [Vues](#6-vues)
-    2. [Assets](#7-assets)
-    2. [Autre](#8-autre)
-
 ## 1. Fil conducteur
 
 - [X] Analyse
@@ -109,6 +95,7 @@
 
 ### 3. Controlleurs
 
+- Account
 - Adverts
     - (CRUD *symf*)
 - Home
@@ -121,6 +108,7 @@
 - NewMail
 - NewPassword
 - Registration
+- User
 
 ### 5. Repositories
 
@@ -132,9 +120,9 @@
 - base
 - account
     - _delete_form *symf*
-    - _form *symf*
-    - edit *symf*
-    - show *symf*
+    - _form
+    - edit
+    - show
 - adverts
     - _delete_form *symf*
     - _form *symf*
@@ -163,8 +151,10 @@
     - redirection (dé)connexion
 - config/**services.yaml**
     - ajout service extension Twig
-- src/Twig/**DateIntervalExtension.php**
-    - `timeAgo()`
+- src/Twig/**Extension.php**
+    - filtre `wrap()`
+    - fonction `common()`
+    - fonction `timeAgo()`
 - **.env**
     - configuration connexion db
 - **webpack.config.js**

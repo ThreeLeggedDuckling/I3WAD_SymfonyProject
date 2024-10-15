@@ -1,11 +1,5 @@
 # Projet Symfony
 
-1. [L'application](#l'application)
-    1. [Principe](#principe)
-    2. [Fonctionnalités](#fonctionnalités)
-    2. [Pages](#pages)
-2. [Liens utiles](#liens-utiles)
-
 ## 1. L'application
 
 ### 1. 1. Principe

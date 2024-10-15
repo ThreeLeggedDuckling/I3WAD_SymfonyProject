@@ -4,11 +4,15 @@
 
 {% block body %}
 
-{% if app.user %}
-    Hello there, welcome back!
-{% else %}
-    Hello there, unknown ... person?
-{% endif %}
+<div>
+    <p>
+        {% if app.user %}
+            Hello there, welcome back!
+        {% else %}
+            Hello there, unknown ... person?
+        {% endif %}
+    </p>
+</div>
 
 {% include "./includes/latest_ad.html.twig" %}
 

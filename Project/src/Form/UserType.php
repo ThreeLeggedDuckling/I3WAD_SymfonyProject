@@ -6,6 +6,7 @@ use App\Entity\Group;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,19 +16,19 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
-            ->add('password')
+            // ->add('roles')
+            ->add('password', PasswordType::class)
             ->add('username')
-            ->add('groups', EntityType::class, [
-                'class' => Group::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('is_admin', EntityType::class, [
-                'class' => Group::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            // ->add('groups', EntityType::class, [
+            //     'class' => Group::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
+            // ->add('is_admin', EntityType::class, [
+            //     'class' => Group::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
         ;
     }
 

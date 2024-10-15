@@ -1,38 +1,159 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}{{ user.username }}{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>{{ user.username }}'s profile</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        {% if user != app.user %}
 
-    <a href="{{ path('app_account_index') }}">back to list</a>
+            <div>
+                <h2>Groups in common</h2>
 
-    <a href="{{ path('app_account_edit', {'id': user.id}) }}">edit</a>
+                {% if common(user, app.user) is empty %}
+                    <p>You have no group in common with {{ user.username }}.</p>
+                {% else %}
+                    {% for group in common(user, app.user) %}
+                        <p>
+                            {{ group.name }} <a href="">see</a>
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            </div>
 
-    {{ include('account/_delete_form.html.twig') }}
+            <div>
+                <h2>{{ user.username }}'s Adverts</h2>
+
+                <div class="d-flex justify-content-evenly">
+                    {% if user.adverts is empty %}
+                        <p>This user hasn't posted any advert.</p>
+                    {% else %}
+
+                        {% for ad in user.adverts %}
+                            <div class="card w-25">
+                                <div class="card-header d-flex justify-content-start flex-wrap">
+                                    <p>posted {{ timeAgo(ad.publishDate).text }}</p>
+                                </div>
+
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <p class="card-text">{{ ad.content|wrap(75) }}</p>
+                                    {# voir comment mieux faire affichage tag #}
+                                    <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                        {% for tag in ad.tags %}
+                                            <p>{{ tag.name }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class='card-footer d-flex justify-content-end'>
+                                    <p>{{ ad.comments|length }} comments</p>
+                                </div>
+                            </div>
+                            {# {{ dump(ad) }} #}
+                        {% endfor %}
+                        
+                    {% endif %}
+                </div>
+            </div>
+
+            {# {{ dump(user) }} #}
+
+        {% else %}
+
+            <div>
+                <h2>My Groups</h2>
+
+                <div class="d-flex justify-content-evenly">
+                    {% if user.groups is empty %}
+                        <p>No group found, did you join any ?</p>
+                    {% else %}
+
+                        {% for group in user.groups %}
+                            <p>
+                                {{ group.name }}
+                                <a href="">see</a> 
+                                {% if user in group.admins %}
+                                    <a href="">manage</a>
+                                {% endif %}
+                            </p>
+                            {# {{ dump(group) }} #}
+                        {% endfor %}
+                        
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <h2>My Adverts</h2>
+
+                <div class="d-flex justify-content-evenly">
+                    {% if user.adverts is empty %}
+                        <p>No advert found, have you posted any ?</p>
+                    {% else %}
+                        
+                        {% for ad in user.adverts %}
+                            <div class="card w-25">
+                                <div class="card-header d-flex justify-content-start flex-wrap">
+                                    <p>posted {{ timeAgo(ad.publishDate).text }}</p>
+                                </div>
+
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <p class="card-text">{{ ad.content|wrap(75) }}</p>
+                                    {# voir comment mieux faire affichage tag #}
+                                    <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                        {% for tag in ad.tags %}
+                                            <p>{{ tag.name }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class='card-footer d-flex justify-content-end'>
+                                    <p>{{ ad.comments|length }} comments</p>
+                                </div>
+                            </div>
+                            {# {{ dump(ad) }} #}
+                        {% endfor %}
+                        
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <h2>My Comments</h2>
+
+                <div class="d-flex flex-column">
+                    {% if user.comments is empty %}
+                        <p>No comment found, try interacting with others.</p>
+                    {% else %}
+                        
+                        {% for comment in user.comments %}
+                            <p>
+                                {{ timeAgo(comment.publishDate).text }} - "{{ comment.content|wrap() }}" <a href="">see</a>
+                            </p>
+                            {# {{ dump(comment) }} #}
+                            
+                        {% endfor %}
+
+                    {% endif %}
+                </div>
+            </div>
+
+            {{ dump(app.user) }}
+
+            <hr>
+
+            <div>
+                <h2>Manage account</h2>
+
+                <a href="{{ path('app_account_edit', {'id': user.id}) }}">edit</a>
+                {# {{ include('account/_delete_form.html.twig') }} #}
+            </div>
+        {% endif %}
+        
+    </div>
+
+    {# <a href="">back to list</a> #}
+    {# symf : {{ path('app_account_index') }} #}
+
 {% endblock %}
