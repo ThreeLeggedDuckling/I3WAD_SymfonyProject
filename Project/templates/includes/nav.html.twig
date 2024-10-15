@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark justify-content-end">	{# trouver pourquoi justify pas end #}
 
 	{# navbar settings #}
-  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
   	</button>
 
@@ -14,20 +14,22 @@
 				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> #}
 				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}" href="{{ path ('app_home') }}">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_advert_index' %}active{% endif %}" href="{{ path ('app_advert_index') }}">Adverts</a>
-			</li>
 
 			{% if app.user %}
+				<li class="nav-item">
+					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_advert_index' %}active{% endif %}" href="{{ path ('app_advert_index') }}">Adverts</a>
+				</li>
 
 				{% if is_granted('ROLE_ADMIN') %}
 					<li class="nav-item">
 						<a class="nav-link" href="">Admin</a>
 					</li>
 				{% endif %}
+
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path ('app_account_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
 				</li>
+
 				<li class="nav-item">
 					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path ('app_logout') }}">Log Out</a>
 				</li>
@@ -37,6 +39,7 @@
 				<li class="nav-item">
 					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}" href="{{ path ('app_register') }}">Sign Up</a>
 				</li>
+				
 				<li class="nav-item">
 					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path ('app_login') }}">Log In</a>
 				</li>

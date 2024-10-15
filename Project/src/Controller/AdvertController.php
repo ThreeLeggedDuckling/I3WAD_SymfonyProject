@@ -15,10 +15,19 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdvertController extends AbstractController
 {
     #[Route(name: 'app_advert_index', methods: ['GET'])]
-    public function index(AdvertRepository $advertRepository): Response
+    public function index(AdvertRepository $advertRepository, Request $req): Response
     {
+        // pagination
+        $page = $req->query->getInt('page', 1);
+        $limit = 15;
+
+        $adverts = $advertRepository->findby([], null, $limit, ($page - 1) * $limit);
+        $maxPage = ceil(count($advertRepository->findAll()) / $limit);
+
         return $this->render('advert/index.html.twig', [
-            'adverts' => $advertRepository->findAll(),
+            'adverts' => $adverts,
+            'current_page' => $page,
+            'total_pages' => $maxPage,
         ]);
     }
 

@@ -19,7 +19,6 @@
         - board
         - details
     - account
-        - display
         - manage
         - confirm delete
     - groupe
@@ -105,6 +104,7 @@
 ### 4. Formulaires
 
 - Advert *symf*
+- FilterAdverts ... devrait revoir système de tags
 - NewMail
 - NewPassword
 - Registration
