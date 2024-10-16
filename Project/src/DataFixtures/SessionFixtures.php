@@ -16,7 +16,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         for($i = 0; $i < 7; $i++){
             $session = new Session();
-            $session->setCampaign($this->getReference('campaign' . rand(0, 3)));
+            $session->setCampaign($this->getReference('campaign' . rand(0, 9)));
             $session->setScheduled($faker->dateTimeThisYear());
             $session->setRunTime(rand(90, 240));
             

@@ -11,7 +11,7 @@ class TagFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $games = ['Dungeons & Dragons', 'Vampire: the Masquerade', 'Degenesis', 'Mausritter', 'City of Mist'];
+        $games = ['D&D 5E', 'Vampire: the Masquerade', 'Degenesis', 'Mausritter', 'City of Mist', 'Insectopia'];
         $genres = ['fantasy', 'medieval fantasy', 'horror', 'science fiction', 'animal', 'strategy', 'narrative', 'realist', 'historic', 'space'];
         $levels = ['first timer', 'beginner', 'beginner friendly', 'experimented'];
         $modalities = ['irl', 'remote', 'mixed'];

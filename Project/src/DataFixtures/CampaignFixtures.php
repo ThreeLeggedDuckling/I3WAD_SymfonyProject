@@ -12,14 +12,14 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $games = ['DnD 5E', 'Vampire', 'Maussritter', 'Pathfinder', 'Insectopia'];
+        $games = ['D&D 5E', 'Vampire: the Masquerade', 'Degenesis', 'Mausritter', 'City of Mist', 'Insectopia'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 4; $i++){
+        for($i = 0; $i < 10; $i++){
             $campaign = new Campaign();
             $campaign->setName($faker->sentence(4));
             $campaign->setGame($faker->randomElement($games));
-            $campaign->setPlayingGroup($this->getReference('group' . rand(0, 2)));
+            $campaign->setPlayingGroup($this->getReference('group' . rand(0, 6)));
             $campaign->setMaster($faker->randomElement($campaign->getPlayingGroup()->getMembers()));
 
             $this->addReference("campaign{$i}", $campaign);

@@ -22,13 +22,13 @@ class UserFixtures extends Fixture
         $nouns = ['table', 'plant', 'starfish', 'ninja', 'fruit', 'mess', 'gremlin', 'sock'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 10; $i++){
+        for($i = 0; $i < 20; $i++){
             $user = new User();
             $user->setUsername($faker->randomElement($adjectives) . $faker->randomElement($nouns));
             $user->setEmail("user{$i}@mail.net");
             $user->setPassword($this->passwordHasher->hashPassword($user, "test"));
             
-            if($i % 4 == 1){
+            if($i % 5 == 1){
                 $j = floor($i/4);
                 $user->setEmail("admin{$j}@mail.net");
                 $user->setRoles(['ROLE_ADMIN']);

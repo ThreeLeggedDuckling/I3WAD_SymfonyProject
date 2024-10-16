@@ -3,9 +3,50 @@
 {% block title %}Advert{% endblock %}
 
 {% block body %}
-    <h1>Advert</h1>
+    <h1>{{ advert.author.username }} is looking for</h1>
 
-    <table class="table">
+    {# annonce #}
+    <div class="rounded border">
+        <p>{{ advert.content }}</p>
+    </div>
+
+    {# commentaires #}
+    <h2>Comments</h2>
+
+    <div>
+        {% for comment in advert.comments %}
+        
+            {% if comment.answerTo is empty %}
+                <div>
+                    <div id="{{ comment.id }}" class="rounded border">
+                        <p>{{ comment.author.username }}</p>
+                        <p>{{ comment.content }}</p>
+                    </div>
+
+                    {# réponses #}
+                    {# voir comment tabuler #}
+                    <div>
+                        {% for answer in comment.answers %}
+                            <div class="rounded border border-secondary">
+                                <p>{{ answer.author.username }}</p>
+                                <p>{{ answer.content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+
+    <div>
+        {# nouveau commentaire -> besoin formulaire #}
+    </div>
+
+
+    <hr>
+
+    {# <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -28,11 +69,11 @@
                 <td>{{ advert.content }}</td>
             </tr>
         </tbody>
-    </table>
+    </table> #}
 
     <a href="{{ path('app_advert_index') }}">back to list</a>
 
-    <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a>
+    {# <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a> #}
 
-    {{ include('advert/_delete_form.html.twig') }}
+    {# {{ include('advert/_delete_form.html.twig') }} #}
 {% endblock %}

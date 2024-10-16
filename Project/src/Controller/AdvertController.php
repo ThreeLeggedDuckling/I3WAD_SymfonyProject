@@ -19,9 +19,14 @@ final class AdvertController extends AbstractController
     {
         // pagination
         $page = $req->query->getInt('page', 1);
-        $limit = 15;
+        $limit = 9;
 
-        $adverts = $advertRepository->findby([], null, $limit, ($page - 1) * $limit);
+        $adverts = $advertRepository->findby(
+            ['isOpen' => '1'],
+            ['id' => 'desc'],
+            $limit,
+            ($page - 1) * $limit
+        );
         $maxPage = ceil(count($advertRepository->findAll()) / $limit);
 
         return $this->render('advert/index.html.twig', [
