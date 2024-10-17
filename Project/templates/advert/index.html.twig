@@ -21,6 +21,8 @@
          #}
     </div>
 
+    <a href="{{ path('app_advert_new') }}">Create new</a>
+
     {# affichage #}
     <div class="cards-container d-flex justify-content-around flex-wrap">
         {% for ad in adverts %}
@@ -98,7 +100,6 @@
 
     <hr>
 
-    <a href="{{ path('app_advert_new') }}">Create new</a>
 
     {% block customJS %}
         {{ encore_entry_script_tags('adBasis') }}

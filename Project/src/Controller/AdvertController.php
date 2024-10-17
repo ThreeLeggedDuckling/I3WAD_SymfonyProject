@@ -44,6 +44,11 @@ final class AdvertController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $advert->setAuthor($this->getUser());
+            $advert->setPublishDate(new \DateTime());
+            $advert->isOpen(true);
+
             $entityManager->persist($advert);
             $entityManager->flush();
 
