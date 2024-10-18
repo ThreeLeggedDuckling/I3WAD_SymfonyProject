@@ -20,7 +20,7 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
             $advert->setAuthor($this->getReference('user' . rand(0, 19)));
             $advert->setPublishDate(new \DateTime());
             $advert->setOpen(true);
-            $advert->setContent($faker->paragraph());
+            $advert->setContent($faker->paragraph(rand(4, 10)));
 
             if($i % 2 == 1){
                 $advert->addTag($this->getReference('tagGame' . rand(0, 4)));

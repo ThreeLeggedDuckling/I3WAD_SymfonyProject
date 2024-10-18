@@ -67,12 +67,12 @@ class AppExtension extends AbstractExtension
             's' => 'second'
         ];
         
-        foreach($units as $k => $v){
-            if($timeDiff[$k]){
+        foreach($units as $key => $unit){
+            if($timeDiff[$key]){
                 return [
-                    'value' => $timeDiff[$k],
-                    'unit' => $k,
-                    'text' => "{$timeDiff[$k]} {$v}" . ($timeDiff[$k] > 1 ? 's' : '') . " ago"
+                    'value' => $timeDiff[$key],
+                    'unit' => $key,
+                    'text' => "{$timeDiff[$key]} {$unit}" . ($timeDiff[$key] > 1 ? 's' : '') . " ago"
                 ];
             }
         }

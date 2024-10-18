@@ -5,10 +5,9 @@
 {% block body %}
     <h1>Browse the Adverts</h1>
 
-    
     {# filtres #}
     <div>
-        {# 
+        {#
             FILTERS :
             - tags
                 - game
@@ -18,7 +17,9 @@
             - order by
             - published before
             - published after
-         #}
+        #}
+        
+        {{ include('advert/_filter.html.twig') }}
     </div>
 
     <a href="{{ path('app_advert_new') }}">Create new</a>
@@ -35,7 +36,7 @@
                     {# voir comment mieux faire affichage tag #}
                     <div class="d-flex justify-content-between flex-wrap">
                         {% for tag in ad.tags %}
-                            <p>{{ tag.name }}</p>
+                            <p>.{{ tag.name }} </p>
                         {% endfor %}
                     </div>
                 </div>

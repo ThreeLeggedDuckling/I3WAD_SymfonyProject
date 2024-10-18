@@ -19,7 +19,7 @@ class NewMailType extends AbstractType
             ->add('email', RepeatedType::class, [
                 'type' => EmailType::class,
                 'data' => '',
-                'invalid_message' => 'The email fields must match.',
+                'invalid_message' => 'The emails must match.',
                 'first_options' => ['label' => 'New Email '],
                 'second_options' => [
                     'label' => 'New Email Confirmation ',

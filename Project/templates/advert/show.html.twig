@@ -6,7 +6,9 @@
     <h1>{{ advert.author.username }} is looking for</h1>
 
     {# annonce #}
-    <div class="rounded border">
+    <div class="rounded border bg-light">
+        <p>posted on {{ advert.publishDate|format_datetime(pattern: 'yy.MM.dd') }} ({{ timeAgo(advert.publishDate).text }})</p>
+        
         <p>{{ advert.content }}</p>
     </div>
 
@@ -18,7 +20,7 @@
         
             {% if comment.answerTo is empty %}
                 <div>
-                    <div id="{{ comment.id }}" class="rounded border">
+                    <div id="{{ comment.id }}" class="rounded border bg-light">
                         <p>{{ comment.author.username }}</p>
                         <p>{{ comment.content }}</p>
                     </div>

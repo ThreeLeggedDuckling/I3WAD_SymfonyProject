@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Form\AdvertType;
+use App\Form\FilterAdvertsType;
 use App\Repository\AdvertRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,13 +15,43 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/advert')]
 final class AdvertController extends AbstractController
 {
-    #[Route(name: 'app_advert_index', methods: ['GET'])]
+    #[Route(name: 'app_advert_index', methods: ['GET', 'POST'])]
     public function index(AdvertRepository $advertRepository, Request $req): Response
     {
         // pagination
         $page = $req->query->getInt('page', 1);
         $limit = 9;
 
+        // formulaire filtres
+        $form = $this->createForm(FilterAdvertsType::class);
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $fields = $form->getData();
+            foreach($fields as $field => $value) {
+                ${$field} = $value;
+            }
+            
+            switch($orderby){
+                case 'newest':
+                    $orderby = ['id' => 'desc'];
+                    break;
+                case 'oldest':
+                    $orderby = null;
+                    break;
+                case 'popularity':
+                    // $orderby = ['']
+                    break;
+            }
+            
+            $advert = $advertRepository->findBy(
+                ['isOpen' => '1'],
+            );
+
+            $maxPage = ceil(count($advertRepository->findAll()) / $limit);
+        }
+        
+        // no filter
         $adverts = $advertRepository->findby(
             ['isOpen' => '1'],
             ['id' => 'desc'],
@@ -33,6 +64,7 @@ final class AdvertController extends AbstractController
             'adverts' => $adverts,
             'current_page' => $page,
             'total_pages' => $maxPage,
+            'form' => $form,
         ]);
     }
 
@@ -47,12 +79,20 @@ final class AdvertController extends AbstractController
 
             $advert->setAuthor($this->getUser());
             $advert->setPublishDate(new \DateTime());
-            $advert->isOpen(true);
+            $advert->setOpen(true);
+
+            $tagtypes = ['game', 'genre', 'level', 'modality'];
+            foreach($tagtypes as $type) {
+                foreach($form->get($type)->getData() as $elem) {
+                    // $tags[] = $elem;
+                    $advert->addTag($elem);
+                }
+            }
 
             $entityManager->persist($advert);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_advert_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('advert/new.html.twig', [

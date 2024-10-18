@@ -31,23 +31,24 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $comment->setAdvert($comment->getAnswerTo()->getAdvert());
             $comment->setPublishDate(new \DateTime());
             $comment->setAuthor($this->getReference('user' . rand(0,19)));
-            $comment->setContent($faker->sentence());
-
-            $this->addReference("answer{$i}", $comment);
-            $manager->persist($comment);
-        }
-
-        for($i = 0; $i <10; $i++){
-            $comment = new Comment();
-            $comment->setAnswerTo($this->getReference('answer' . rand(0, 14)));
-            $comment->setAdvert($comment->getAnswerTo()->getAdvert());
-            $comment->setPublishDate(new \DateTime());
-            $comment->setAuthor($this->getReference('user' . rand(0,19)));
-            $comment->setContent($faker->sentence());
+            $comment->setContent($faker->sentence(rand(4, 15)));
 
             // $this->addReference("answer{$i}", $comment);
             $manager->persist($comment);
         }
+
+        // LAISSE TOMBER
+        // for($i = 0; $i <10; $i++){
+        //     $comment = new Comment();
+        //     $comment->setAnswerTo($this->getReference('answer' . rand(0, 14)));
+        //     $comment->setAdvert($comment->getAnswerTo()->getAdvert());
+        //     $comment->setPublishDate(new \DateTime());
+        //     $comment->setAuthor($this->getReference('user' . rand(0,19)));
+        //     $comment->setContent($faker->sentence());
+
+        //     // $this->addReference("answer{$i}", $comment);
+        //     $manager->persist($comment);
+        // }
 
         $manager->flush();
     }
