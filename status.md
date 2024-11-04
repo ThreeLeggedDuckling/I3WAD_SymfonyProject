@@ -17,8 +17,13 @@
 - vues
     - advert
         - board
+            - filters
         - details
+            - comments
+            - new comment
     - account
+        - details
+            - ajouter dans groupe
         - manage
         - confirm delete
     - groupe
@@ -28,19 +33,20 @@
 
 - controlleurs
     - advert
-        - nouveau post
-        - finir fonction nouveau commentaire
+        - nouveau commentaire
     - account
+        - ajout groupe (?)
         - modification mail
         - modification mdp
         - supression compte
     - group
         - nouveau groupe
         - gestion
-
+            - ajout membre
+    - campaign
 
 - formulaires
-    - filtres affichage annonces
+    - filtres annonces
 
 ## 3. Fait
 

@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             'latest' => $advertRepository->latest(),
-            'adverts' => $advertRepository->findAll(),
+            'totalAds' => count($advertRepository->findAll()),
         ]);
     }
 }

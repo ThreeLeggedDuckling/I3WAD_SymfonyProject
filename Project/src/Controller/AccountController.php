@@ -32,7 +32,7 @@ final class AccountController extends AbstractController
             $entityManager->flush();
 
             // modif ici
-            return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_account_show', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('account/edit.html.twig', [
@@ -50,7 +50,7 @@ final class AccountController extends AbstractController
             $entityManager->flush();
         }
         
-        // modif ici
-        return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
+        // ajouter option action admin
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);
     }
 }
