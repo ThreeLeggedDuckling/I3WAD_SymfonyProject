@@ -16,6 +16,8 @@
 
 - vues
     - advert
+        - show
+            - fixer pagination
         - details
             - comments
             - new comment
@@ -30,6 +32,7 @@
         - campaign
 
 - controlleurs
+    - admin
     - advert
         - nouveau commentaire
     - account
@@ -37,11 +40,11 @@
         - modification mail
         - modification mdp
         - supression compte
+    - campaign
     - group
         - nouveau groupe
         - gestion
             - ajout membre
-    - campaign
 
 - formulaires
     - ...

@@ -33,13 +33,21 @@
                         <p>{{ comment.content }}</p>
                     </div>
 
+                    <div>
+                        <button type='button'>🪅</button>
+                    </div>
+
                     {# réponses #}
                     {# voir comment tabuler #}
                     <div>
                         {% for answer in comment.answers %}
-                            <div class="rounded border border-secondary">
+                            <div id="{{ comment.id }}" class="rounded border border-secondary bg-light">
                                 <p>{{ answer.author.username }}</p>
                                 <p>{{ answer.content }}</p>
+                            </div>
+
+                            <div>
+                                <button type='button'>🪅</button>
                             </div>
                         {% endfor %}
                     </div>
