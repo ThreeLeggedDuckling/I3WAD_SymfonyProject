@@ -16,8 +16,6 @@
 
 - vues
     - advert
-        - board
-            - filters
         - details
             - comments
             - new comment
@@ -46,7 +44,7 @@
     - campaign
 
 - formulaires
-    - filtres annonces
+    - ...
 
 ## 3. Fait
 
@@ -100,9 +98,11 @@
 
 ### 3. Controlleurs
 
-- Account
+- Account *symf*
 - Adverts
-    - (CRUD *symf*)
+    - index
+    - new
+    - edit *symf*
 - Home
 - Registration *symf*
 - Security *symf*
@@ -110,7 +110,7 @@
 ### 4. Formulaires
 
 - Advert *symf*
-- FilterAdverts ... devrait revoir système de tags
+- FilterAdverts
 - NewMail
 - NewPassword
 - Registration
@@ -120,6 +120,7 @@
 
 - Advert
     - `latest()`
+    - `filterSearch()`
 
 ### 6. Vues
 
@@ -133,7 +134,7 @@
     - _delete_form *symf*
     - _form *symf*
     - edit *symf*
-    - index *symf*
+    - index
     - new *symf*
     - show *symf*
 - home

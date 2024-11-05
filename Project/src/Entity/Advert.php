@@ -43,11 +43,21 @@ class Advert
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'adverts')]
     private Collection $tags;
 
-    public function __construct()
+    public function __construct(array $ini = [])
     {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        // $this->hydrate($ini);
     }
+
+    // public function hydrate (array $ini){
+    //     foreach ($ini as $key => $value){
+    //         $method = "set" . ucfirst($key);
+    //         if (method_exists($this, $method)) {
+    //             $this->$method ($value);
+    //         }
+    //     }
+    // }
 
     public function getId(): ?int
     {

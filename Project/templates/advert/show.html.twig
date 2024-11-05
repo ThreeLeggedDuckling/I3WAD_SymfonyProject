@@ -8,6 +8,14 @@
     {# annonce #}
     <div class="rounded border bg-light">
         <p>posted on {{ advert.publishDate|format_datetime(pattern: 'yy.MM.dd') }} ({{ timeAgo(advert.publishDate).text }})</p>
+
+        <p>
+            {% for tag in advert.tags %}
+                <u>{{ tag.name }}</u> 
+            {% endfor %}
+        </p>
+
+        <hr>
         
         <p>{{ advert.content }}</p>
     </div>

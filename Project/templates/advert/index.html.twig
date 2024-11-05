@@ -33,11 +33,12 @@
                     <h5>{{ ad.author.username }}</h5>
                     <p class="align-self-end">{{ timeAgo(ad.publishDate).text }}</p>
 
-                    {# voir comment mieux faire affichage tag #}
                     <div class="d-flex justify-content-between flex-wrap">
-                        {% for tag in ad.tags %}
-                            <p>.{{ tag.name }} </p>
-                        {% endfor %}
+                        <p>
+                            {% for tag in ad.tags %}
+                                <u>{{ tag.name }}</u> 
+                            {% endfor %}
+                        </p>
                     </div>
                 </div>
 

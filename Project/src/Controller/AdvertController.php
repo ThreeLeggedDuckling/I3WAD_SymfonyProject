@@ -47,12 +47,17 @@ final class AdvertController extends AbstractController
                     // $orderby = ['']
                     break;
             }
-            
-            $advert = $advertRepository->findBy(
-                ['isOpen' => '1'],
-            );
+
+            $adverts = $advertRepository->filterSearch($form->getData());
 
             $maxPage = ceil(count($advertRepository->findAll()) / $limit);
+
+            return $this->render('advert/index.html.twig', [
+                'adverts' => $adverts,
+                'current_page' => $page,
+                'total_pages' => $maxPage,
+                'form' => $form,
+            ]);
         }
         
         // no filter

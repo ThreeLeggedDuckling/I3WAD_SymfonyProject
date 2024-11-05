@@ -2,15 +2,17 @@
 
 namespace App\Form;
 
-use App\Entity\Advert;
 use App\Entity\Tag;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Advert;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class FilterAdvertsType extends AbstractType
 {
@@ -29,6 +31,7 @@ class FilterAdvertsType extends AbstractType
          */
 
         $builder
+            // orderby
             ->add('orderby', ChoiceType::class, [
                 'choices' => [
                     'date (newest)' => 'newest',
@@ -36,87 +39,65 @@ class FilterAdvertsType extends AbstractType
                     'popularity' => 'popularity',
                 ]
             ])
+            // date publication
             ->add('after', DateType::class, [
                 'required' => false,
             ])
             ->add('before', DateType::class, [
                 'required' => false,
             ])
-
-            // changer type champs
+            //jeu
             ->add('game', EntityType::class, [
-                'mapped' => false,
-                'required' => false,
+                // 'mapped' => false,
                 'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er) :QueryBuilder {
+                    return $er->createQueryBuilder('t')
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', 'game')
+                    ->orderBy('t.name', 'asc');
+                },
                 'choice_label' => 'name',
+                'required' => false,
             ])
+            // genre
             ->add('genre', EntityType::class, [
-                'mapped' => false,
-                'required' => false,
+                // 'mapped' => false,
                 'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er) :QueryBuilder {
+                    return $er->createQueryBuilder('t')
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', 'genre')
+                    ->orderBy('t.name', 'asc');
+                },
                 'choice_label' => 'name',
+                'required' => false,
             ])
-
-            // ->add('game', EntityType::class, [
-            //     'mapped' => false,
-            //     'class' => Tag::class,
-            //     'query_builder' => function (EntityRepository $er) :QueryBuilder {
-            //         return $er->createQueryBuilder('t')
-            //         ->andWhere('t.type = :type')
-            //         ->setParameter('type', 'game');
-            //     },
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            // ])
-            // ->add('genre', EntityType::class, [
-            //     'mapped' => false,
-            //     'class' => Tag::class,
-            //     'query_builder' => function (EntityRepository $er) :QueryBuilder {
-            //         return $er->createQueryBuilder('t')
-            //         ->andWhere('t.type = :type')
-            //         ->setParameter('type', 'genre');
-            //     },
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            // ])
-            // ->add('level', EntityType::class, [
-            //     'mapped' => false,
-            //     'class' => Tag::class,
-            //     'query_builder' => function (EntityRepository $er) :QueryBuilder {
-            //         return $er->createQueryBuilder('t')
-            //         ->andWhere('t.type = :type')
-            //         ->setParameter('type', 'level');
-            //     },
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            // ])
-            // ->add('modality', EntityType::class, [
-            //     'mapped' => false,
-            //     'class' => Tag::class,
-            //     'query_builder' => function (EntityRepository $er) :QueryBuilder {
-            //         return $er->createQueryBuilder('t')
-            //         ->andWhere('t.type = :type')
-            //         ->setParameter('type', 'modality');
-            //     },
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            // ])
-            
-            // ->add('publishDate', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('isOpen')
-            // ->add('area')
-            // ->add('content')
-            // ->add('author', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
-            // ->add('tags', EntityType::class, [
-            //     'class' => Tag::class,
-            //     'choice_label' => 'id',
-            //     'multiple' => true,
-            // ])
+            // niveau
+            ->add('level', EntityType::class, [
+                // 'mapped' => false,
+                'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er) :QueryBuilder {
+                    return $er->createQueryBuilder('t')
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', 'level');
+                },
+                'choice_label' => 'name',
+                'required' => false,
+            ])
+            // modalité
+            ->add('modality', EntityType::class, [
+                // 'mapped' => false,
+                'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er) :QueryBuilder {
+                    return $er->createQueryBuilder('t')
+                    ->andWhere('t.type = :type')
+                    ->setParameter('type', 'modality')
+                    ->orderBy('t.name', 'asc');
+                },
+                'choice_label' => 'name',
+                'required' => false,
+            ])
+            // champ région pour irl ?
         ;
     }
 

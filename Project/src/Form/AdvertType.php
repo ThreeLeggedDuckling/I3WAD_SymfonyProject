@@ -20,46 +20,33 @@ class AdvertType extends AbstractType
         $builder
             ->add('area')
             ->add('content')
-
-            // ->add('publishDate', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('isOpen')
-            // ->add('author', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
-            // ->add('tags', CollectionType::class, [
-            //     'entry_type' => EntityType::class,
-            //     'entry_options' => [
-            //         'class' => Tag::class,
-            //         'choice_label' => 'name',
-            //         'multiple' => true,
-            //     ]
-            // ])
-
-            // MODIFIER AVEC CHAMPS RECHERCHE
+            // jeu
             ->add('game', EntityType::class, [
                 'mapped' => false,
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
                     ->andWhere('t.type = :type')
-                    ->setParameter('type', 'game');
+                    ->setParameter('type', 'game')
+                    ->orderBy('t.name', 'asc');
                 },
                 'choice_label' => 'name',
+                'required' => false,
             ])
+            // genre
             ->add('genre', EntityType::class, [
                 'mapped' => false,
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
                     ->andWhere('t.type = :type')
-                    ->setParameter('type', 'genre');
+                    ->setParameter('type', 'genre')
+                    ->orderBy('t.name', 'asc');
                 },
                 'choice_label' => 'name',
-                'multiple' => true,
+                'required' => false,
             ])
+            // niveau
             ->add('level', EntityType::class, [
                 'mapped' => false,
                 'class' => Tag::class,
@@ -71,17 +58,20 @@ class AdvertType extends AbstractType
                 'choice_label' => 'name',
                 'expanded' => true,
             ])
+            //modalité
             ->add('modality', EntityType::class, [
                 'mapped' => false,
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
                     ->andWhere('t.type = :type')
-                    ->setParameter('type', 'modality');
+                    ->setParameter('type', 'modality')
+                    ->orderBy('t.name', 'asc');
                 },
                 'choice_label' => 'name',
                 'expanded' => true,
             ])
+            // région ?
         ;
     }
 
