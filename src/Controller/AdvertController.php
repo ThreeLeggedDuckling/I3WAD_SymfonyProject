@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Advert;
+use App\Entity\Comment;
 use App\Form\AdvertType;
+use App\Form\CommentType;
 use App\Form\FilterAdvertsType;
 use App\Repository\AdvertRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,15 +118,43 @@ final class AdvertController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_advert_show', methods: ['GET'])]
-    public function show(Advert $advert, AdvertRepository $advertRepository): Response
+    #[Route('/{id}', name: 'app_advert_show', methods: ['GET', 'POST'])]
+    public function show(Advert $advert, AdvertRepository $advertRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $em): Response
     {
         if (!$this->isGranted('ROLE_USER') && !in_array($advert, $advertRepository->latest())) {
             return $this->redirectToRoute('app_home');
         }
 
+        $form = $this->createForm(CommentType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $data = $form->getData();
+            $newComment = new Comment();
+
+            $newComment->setContent($data['content']);
+            if ($data['answering'] != null) {
+                $newComment->setAnswerTo($commentRepository->find($data['answering']));
+            }
+
+            $newComment->setAdvert($advert);
+            $newComment->setPublishDate(new \DateTime());
+            $newComment->setAuthor($this->getUser());
+
+            // dd($newComment);
+            $em->persist($newComment);
+            $em->flush();
+
+            return $this->render('advert/show.html.twig', [
+                'advert' => $advert,
+                'form' => $form,
+            ]);
+        }
+
         return $this->render('advert/show.html.twig', [
             'advert' => $advert,
+            'form' => $form,
         ]);
     }
 

@@ -21,77 +21,69 @@
     </div>
 
     {# commentaires #}
-    <h2>Comments</h2>
+    <h3>Comments ({{ advert.comments|length }})</h3>
 
     <div>
-        {% for comment in advert.comments %}
-        
-            {% if comment.answerTo is empty %}
-                <div>
-                    <div id="{{ comment.id }}" class="rounded border bg-light">
-                        <p>{{ comment.author.username }}</p>
-                        <p>{{ comment.content }}</p>
-                    </div>
+        {% if not is_granted('ROLE_USER') %}
+            <p>Sorry, you need to be loged in to see comments</p>
+        {% else %}
+            {% for comment in advert.comments %}
+            
+            {# différencier les messages admin #}
+                {% if comment.answerTo is empty %}
+                    <div id="{{ comment.id }}">
+                        <div class="rounded border bg-light">
+                            <p>{{ comment.author.username }}</p>
+                            <p>{{ comment.content }}</p>
+                        </div>
 
-                    <div>
-                        <button type='button'>🪅</button>
+                        <button class="answerTo">🪅</button>
                     </div>
 
                     {# réponses #}
                     {# voir comment tabuler #}
-                    <div>
+                    <div id="a{{ comment.id }}">
                         {% for answer in comment.answers %}
-                            <div id="{{ comment.id }}" class="rounded border border-secondary bg-light">
-                                <p>{{ answer.author.username }}</p>
-                                <p>{{ answer.content }}</p>
-                            </div>
+                            <div id="{{ comment.id }}">
+                                <div class="rounded border border-secondary bg-light">
+                                    <p>{{ answer.author.username }}</p>
+                                    <p>{{ answer.content }}</p>
+                                </div>
 
-                            <div>
-                                <button type='button'>🪅</button>
+                                <button class="answerTo">🪅</button>
                             </div>
                         {% endfor %}
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
 
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
+
+    <h3>Leave a comment</h3>
 
     <div>
-        {# nouveau commentaire -> besoin formulaire #}
+        {# nouveau commentaire#}
+        {% include('advert/_new_comment.html.twig') %}
     </div>
 
 
+    {# séparation trucs par défaut symfony #}
     <hr>
-
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ advert.id }}</td>
-            </tr>
-            <tr>
-                <th>PublishDate</th>
-                <td>{{ advert.publishDate ? advert.publishDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>IsOpen</th>
-                <td>{{ advert.isOpen ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Area</th>
-                <td>{{ advert.area }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ advert.content }}</td>
-            </tr>
-        </tbody>
-    </table> #}
 
     <a href="{{ path('app_advert_index') }}">back to list</a>
 
     {# <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a> #}
 
     {# {{ include('advert/_delete_form.html.twig') }} #}
+
+
+
+    {# JS pour réponse #}
+    {% block customJS %}
+        {{ encore_entry_script_tags('answerComment') }}
+    {% endblock %}
+    {# {% block customCSS %}
+        {{ encore_entry_link_tags('') }}
+    {% endblock %} #}
 {% endblock %}
