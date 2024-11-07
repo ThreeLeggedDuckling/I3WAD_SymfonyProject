@@ -19,41 +19,32 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdvertController extends AbstractController
 {
     #[Route(name: 'app_advert_index', methods: ['GET', 'POST'])]
-    public function index(AdvertRepository $advertRepository, Request $req): Response
+    public function index(AdvertRepository $advertRepository, Request $request): Response
     {
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
         }
 
-        // pagination
-        $page = $req->query->getInt('page', 1);
+        // ?page
+        $page = $request->query->getInt('page', 1);
+        // annonces par page
         $limit = 9;
+        $offset = ($page - 1) * $limit;
 
         // formulaire filtres
         $form = $this->createForm(FilterAdvertsType::class);
-        $form->handleRequest($req);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $fields = $form->getData();
-            foreach($fields as $field => $value) {
-                ${$field} = $value;
-            }
+
+            // reset pagination
+            $page = 1;
             
-            switch($orderby){
-                case 'newest':
-                    $orderby = ['id' => 'desc'];
-                    break;
-                case 'oldest':
-                    $orderby = null;
-                    break;
-                case 'popularity':
-                    // $orderby = ['']
-                    break;
-            }
+            $filters = $form->getData();
+            $adverts = $advertRepository->filterSearch($filters, $limit, $offset);
 
-            $adverts = $advertRepository->filterSearch($form->getData());
-
-            $maxPage = ceil(count($advertRepository->findAll()) / $limit);
+            // nombre pages
+            $maxPage = ceil(count($advertRepository->filterSearch($filters)) / $limit);
 
             return $this->render('advert/index.html.twig', [
                 'adverts' => $adverts,
@@ -63,14 +54,15 @@ final class AdvertController extends AbstractController
             ]);
         }
         
-        // no filter
+        // defaut
         $adverts = $advertRepository->findby(
-            ['isOpen' => '1'],
+            ['isOpen' => true],
             ['id' => 'desc'],
             $limit,
-            ($page - 1) * $limit
+            $offset
         );
-        $maxPage = ceil(count($advertRepository->findAll()) / $limit);
+        // nombre pages
+        $maxPage = ceil(count($advertRepository->findBy(['isOpen' => true])) / $limit);
 
         return $this->render('advert/index.html.twig', [
             'adverts' => $adverts,
@@ -146,10 +138,7 @@ final class AdvertController extends AbstractController
             $em->persist($newComment);
             $em->flush();
 
-            return $this->render('advert/show.html.twig', [
-                'advert' => $advert,
-                'form' => $form,
-            ]);
+            return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
         }
 
         return $this->render('advert/show.html.twig', [

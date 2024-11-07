@@ -32,13 +32,15 @@ class AdvertRepository extends ServiceEntityRepository
     }
     
     // filtres app_advert_index
-    public function filterSearch(array $data) {
+    public function filterSearch(array $data, ?int $limit = null, ?int $offset = null) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder()
         ->select('a')
         ->from('App\Entity\Advert', 'a')
         ->innerJoin('a.tags', 't')
-        ->where('a.isOpen = true');
+        ->where('a.isOpen = true')
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
         // filtre ordre
         switch($data['orderby']){
@@ -49,10 +51,10 @@ class AdvertRepository extends ServiceEntityRepository
                 $qb->orderBy('a.id');
                 break;
             case 'popularity':
-                $qb->addSelect('COUNT(c.id) AS HIDDEN cCount')
+                $qb->addSelect('COUNT(c.id) AS HIDDEN comment_count')
                     ->leftJoin('a.comments', 'c')
                     ->groupBy('a.id')
-                    ->orderBy('cCount', 'desc');
+                    ->orderBy('comment_count', 'desc');
                 break;
         }
         
@@ -91,6 +93,16 @@ class AdvertRepository extends ServiceEntityRepository
             ->setParameter('mType', $data['modality']->getType())
             ->setParameter('mName', $data['modality']->getName());
         }
+
+        // debug
+        // dd($qb->getQue->getSQL());
+        /* attendu :
+            SELECT a.*, COUNT(c.id) AS comment_count
+            FROM advert a
+            LEFT JOIN comment c ON c.advert_id = a.id
+            GROUP BY a.id
+            ORDER BY comment_count DESC;
+        */
 
         // exécution requête
         $adverts = $qb->getQuery()->getResult();
