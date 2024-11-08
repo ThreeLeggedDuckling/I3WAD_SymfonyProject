@@ -10,6 +10,7 @@ use App\Form\FilterAdvertsType;
 use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdvertController extends AbstractController
 {
     #[Route(name: 'app_advert_index', methods: ['GET', 'POST'])]
-    public function index(AdvertRepository $advertRepository, Request $request): Response
+    public function index(AdvertRepository $advertRepository, Request $request, PaginatorInterface $paginator): Response
     {
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
@@ -39,17 +40,17 @@ final class AdvertController extends AbstractController
 
             // reset pagination
             $page = 1;
-            
+
             $filters = $form->getData();
-            $adverts = $advertRepository->filterSearch($filters, $limit, $offset);
+            $adverts = $advertRepository->filterSearch($filters);
 
             // nombre pages
-            $maxPage = ceil(count($advertRepository->filterSearch($filters)) / $limit);
+            // $maxPage = ceil(count($advertRepository->filterSearch($filters)) / $limit);
 
             return $this->render('advert/index.html.twig', [
                 'adverts' => $adverts,
                 'current_page' => $page,
-                'total_pages' => $maxPage,
+                // 'total_pages' => $maxPage,
                 'form' => $form,
             ]);
         }
@@ -61,13 +62,21 @@ final class AdvertController extends AbstractController
             $limit,
             $offset
         );
+        $qb = $advertRepository->createQueryBuilder('a')
+            ->where('a.isOpen = true')
+            ->orderBy('a.id', 'desc');
         // nombre pages
         $maxPage = ceil(count($advertRepository->findBy(['isOpen' => true])) / $limit);
 
+        $pagination = $paginator->paginate(
+            $qb,
+            $page,
+            $limit
+        );
+
         return $this->render('advert/index.html.twig', [
-            'adverts' => $adverts,
-            'current_page' => $page,
-            'total_pages' => $maxPage,
+            'adverts' => $qb->getQuery()->getResult(),
+            'pagination' => $pagination,
             'form' => $form,
         ]);
     }

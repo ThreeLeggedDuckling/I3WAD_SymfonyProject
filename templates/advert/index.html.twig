@@ -44,7 +44,7 @@
     </div>
 
     {# pagination #}
-    <div class="d-flex justify-content-center">
+    {# <div class="d-flex justify-content-center">
         {% if current_page > 1 %}
             <a href="{{ path('app_advert_index', {'page': current_page - 1}) }}">&lt;</a>        
         {% endif %}
@@ -54,39 +54,12 @@
         {% if current_page < total_pages %}
             <a href="{{ path('app_advert_index', {'page': current_page + 1}) }}">&gt;</a>
         {% endif %}
-    </div>
+    </div> #}
 
-    {# <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>PublishDate</th>
-                <th>IsOpen</th>
-                <th>Area</th>
-                <th>Content</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for advert in adverts %}
-            <tr>
-                <td>{{ advert.id }}</td>
-                <td>{{ advert.publishDate ? advert.publishDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ advert.isOpen ? 'Yes' : 'No' }}</td>
-                <td>{{ advert.area }}</td>
-                <td>{{ advert.content }}</td>
-                <td>
-                    <a href="{{ path('app_advert_show', {'id': advert.id}) }}">show</a>
-                    <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table> #}
+    {# pagination #}
+    <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
     <hr>
 

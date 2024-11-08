@@ -6,8 +6,6 @@ use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use function PHPUnit\Framework\isNull;
-
 /**
  * @extends ServiceEntityRepository<Advert>
  */
@@ -32,15 +30,14 @@ class AdvertRepository extends ServiceEntityRepository
     }
     
     // filtres app_advert_index
-    public function filterSearch(array $data, ?int $limit = null, ?int $offset = null) {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder()
-        ->select('a')
-        ->from('App\Entity\Advert', 'a')
-        ->innerJoin('a.tags', 't')
-        ->where('a.isOpen = true')
-        ->setFirstResult($offset)
-        ->setMaxResults($limit);
+    public function filterSearch(array $data) {
+        $qb = $this->createQueryBuilder('a')
+        ->innerJoin('App\Entity\Tag', 't')
+        ->where('a.isOpen = true');
+        // ->setFirstResult($offset)
+        // ->setMaxResults($limit);
+
+        // dd($qb->getQuery()->getSQL());
 
         // filtre ordre
         switch($data['orderby']){
@@ -103,10 +100,11 @@ class AdvertRepository extends ServiceEntityRepository
             GROUP BY a.id
             ORDER BY comment_count DESC;
         */
-
+        
         // exécution requête
-        $adverts = $qb->getQuery()->getResult();
-        return $adverts;
+        $query = $qb->getQuery();
+
+        return $query;
     }
 
 }
