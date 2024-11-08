@@ -12,6 +12,11 @@
 
     <a href="{{ path('app_advert_new') }}">Create new</a>
 
+    {{ dump(app.request.query) }}
+    {{ knp_pagination_sortable(adverts, 'Newest', 'a.id', {}, {'direction': 'desc'}) }}
+    {{ knp_pagination_sortable(adverts, 'Oldest', 'a.id', {}, {'direction': 'asc'}) }}
+    {{ knp_pagination_sortable(adverts, 'Most popular', 'comment_count', {}, {'direction': 'desc'}) }}
+
     {# affichage #}
     <div class="cards-container d-flex justify-content-around flex-wrap">
         {% for ad in adverts %}
@@ -44,21 +49,8 @@
     </div>
 
     {# pagination #}
-    {# <div class="d-flex justify-content-center">
-        {% if current_page > 1 %}
-            <a href="{{ path('app_advert_index', {'page': current_page - 1}) }}">&lt;</a>        
-        {% endif %}
-
-        {{ current_page }} / {{ total_pages }}
-
-        {% if current_page < total_pages %}
-            <a href="{{ path('app_advert_index', {'page': current_page + 1}) }}">&gt;</a>
-        {% endif %}
-    </div> #}
-
-    {# pagination #}
     <div class="d-flex justify-content-center">
-        {{ knp_pagination_render(pagination) }}
+        {{ knp_pagination_render(adverts, ) }}
     </div>
 
     <hr>

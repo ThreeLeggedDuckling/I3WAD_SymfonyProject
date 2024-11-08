@@ -14,23 +14,23 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for($i = 0; $i < 30; $i++){
+        for($i = 0; $i < 40; $i++){
             $comment = new Comment();
-            $comment->setAdvert($this->getReference('advert' . rand(0,19)));
+            $comment->setAdvert($this->getReference('advert' . rand(0,39)));
             $comment->setPublishDate(new \DateTime());
-            $comment->setAuthor($this->getReference('user' . rand(0,19)));
+            $comment->setAuthor($this->getReference('user' . rand(0,29)));
             $comment->setContent($faker->sentence());
 
             $this->addReference("comment{$i}", $comment);
             $manager->persist($comment);
         }
 
-        for($i = 0; $i <15; $i++){
+        for($i = 0; $i <25; $i++){
             $comment = new Comment();
-            $comment->setAnswerTo($this->getReference('comment' . rand(0, 29)));
+            $comment->setAnswerTo($this->getReference('comment' . rand(0, 39)));
             $comment->setAdvert($comment->getAnswerTo()->getAdvert());
             $comment->setPublishDate(new \DateTime());
-            $comment->setAuthor($this->getReference('user' . rand(0,19)));
+            $comment->setAuthor($this->getReference('user' . rand(0,29)));
             $comment->setContent($faker->sentence(rand(4, 15)));
 
             // $this->addReference("answer{$i}", $comment);

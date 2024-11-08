@@ -26,57 +26,53 @@ final class AdvertController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        // ?page
-        $page = $request->query->getInt('page', 1);
-        // annonces par page
+        $page = $request->query->getInt('page', 1); // ?page
         $limit = 9;
-        $offset = ($page - 1) * $limit;
 
-        // formulaire filtres
+        // dd($request->query);
+
         $form = $this->createForm(FilterAdvertsType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            // reset pagination
+            
             $page = 1;
-
             $filters = $form->getData();
-            $adverts = $advertRepository->filterSearch($filters);
+            foreach ($filters as $k => $v) {
+                if (!empty($filters[$k])) {
+                    $cleanData[$k] = $v;
+                }
+            }
 
-            // nombre pages
-            // $maxPage = ceil(count($advertRepository->filterSearch($filters)) / $limit);
+            $qb = $advertRepository->filterSearch($cleanData);
+            $adverts = $paginator->paginate(
+                $qb,
+                $page,
+                $limit,
+                array('wrap-queries'=>true) // solution 'Cannot count query that uses a HAVING clause. Use the output walkers for pagination'
+            );
 
+            // dd($adverts);
             return $this->render('advert/index.html.twig', [
                 'adverts' => $adverts,
-                'current_page' => $page,
-                // 'total_pages' => $maxPage,
                 'form' => $form,
             ]);
         }
         
         // defaut
-        $adverts = $advertRepository->findby(
-            ['isOpen' => true],
-            ['id' => 'desc'],
-            $limit,
-            $offset
-        );
         $qb = $advertRepository->createQueryBuilder('a')
+            ->groupBy('a.id')
             ->where('a.isOpen = true')
-            ->orderBy('a.id', 'desc');
-        // nombre pages
-        $maxPage = ceil(count($advertRepository->findBy(['isOpen' => true])) / $limit);
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('COUNT(c.id) AS HIDDEN comment_count');
 
-        $pagination = $paginator->paginate(
+        $adverts = $paginator->paginate(
             $qb,
-            $page,
-            $limit
+            $page
         );
 
         return $this->render('advert/index.html.twig', [
-            'adverts' => $qb->getQuery()->getResult(),
-            'pagination' => $pagination,
+            'adverts' => $adverts,
             'form' => $form,
         ]);
     }

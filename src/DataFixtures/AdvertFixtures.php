@@ -15,7 +15,7 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for($i = 0; $i < 20; $i++){
+        for($i = 0; $i < 40; $i++){
             $advert = new Advert();
             $advert->setAuthor($this->getReference('user' . rand(0, 19)));
             $advert->setPublishDate(new \DateTime());

@@ -22,7 +22,7 @@ class UserFixtures extends Fixture
         $nouns = ['table', 'plant', 'starfish', 'ninja', 'fruit', 'mess', 'gremlin', 'sock'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 20; $i++){
+        for($i = 0; $i < 30; $i++){
             $user = new User();
             $user->setUsername($faker->randomElement($adjectives) . $faker->randomElement($nouns));
             $user->setEmail("user{$i}@mail.net");

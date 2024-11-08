@@ -18,37 +18,29 @@ class FilterAdvertsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /**
-         *  FILTERS :
-         *    - order by
-         *    - published before
-         *    - published after
-         *    - tags
-         *        - game
-         *        - genre
-         *        - level
-         *        - modality
-         */
-
         $builder
-            // orderby
-            ->add('orderby', ChoiceType::class, [
-                'choices' => [
-                    'date (newest)' => 'newest',
-                    'date (oldest)' => 'oldest',
-                    'popularity' => 'popularity',
-                ]
-            ])
+            // orderby  <- pris en charge par KnpPaginatorBundle
+            // ->add('orderby', ChoiceType::class, [
+            //     'label' => 'Order by ',
+            //     'choices' => [
+            //         'date (newest)' => 'newest',
+            //         'date (oldest)' => 'oldest',
+            //         'popularity' => 'popularity',
+            //     ]
+            // ])
+            
             // date publication
             ->add('after', DateType::class, [
+                'label' => 'After ',
                 'required' => false,
             ])
             ->add('before', DateType::class, [
+                'label' => 'Before ',
                 'required' => false,
             ])
             //jeu
             ->add('game', EntityType::class, [
-                // 'mapped' => false,
+                'label' => 'Game ',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
@@ -61,7 +53,7 @@ class FilterAdvertsType extends AbstractType
             ])
             // genre
             ->add('genre', EntityType::class, [
-                // 'mapped' => false,
+                'label' => 'Genre ',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
@@ -74,7 +66,7 @@ class FilterAdvertsType extends AbstractType
             ])
             // niveau
             ->add('level', EntityType::class, [
-                // 'mapped' => false,
+                'label' => 'Level ',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
@@ -86,7 +78,7 @@ class FilterAdvertsType extends AbstractType
             ])
             // modalité
             ->add('modality', EntityType::class, [
-                // 'mapped' => false,
+                'label' => 'Modality ',
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er) :QueryBuilder {
                     return $er->createQueryBuilder('t')
@@ -104,7 +96,6 @@ class FilterAdvertsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null,
         ]);
     }
 }

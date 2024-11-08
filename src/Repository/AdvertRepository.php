@@ -32,79 +32,63 @@ class AdvertRepository extends ServiceEntityRepository
     // filtres app_advert_index
     public function filterSearch(array $data) {
         $qb = $this->createQueryBuilder('a')
-        ->innerJoin('App\Entity\Tag', 't')
-        ->where('a.isOpen = true');
-        // ->setFirstResult($offset)
-        // ->setMaxResults($limit);
+            ->groupBy('a.id')
+            ->where('a.isOpen = true');
 
-        // dd($qb->getQuery()->getSQL());
-
-        // filtre ordre
-        switch($data['orderby']){
-            case 'newest':
-                $qb->orderBy('a.id', 'desc');
-                break;
-            case 'oldest':
-                $qb->orderBy('a.id');
-                break;
-            case 'popularity':
-                $qb->addSelect('COUNT(c.id) AS HIDDEN comment_count')
-                    ->leftJoin('a.comments', 'c')
-                    ->groupBy('a.id')
-                    ->orderBy('comment_count', 'desc');
-                break;
-        }
+        // filtre ordre <- pris en charge par KnpPaginatorBundle
+        // switch($data['orderby']){
+        //     case 'newest':
+        //         $qb->orderBy('a.id', 'desc');
+        //         break;
+        //     case 'oldest':
+        //         $qb->orderBy('a.id');
+        //         break;
+        //     case 'popularity':
+        //         $qb->leftJoin('a.comments', 'c')
+        //             ->addSelect('COUNT(c.id) AS HIDDEN comment_count')
+        //             ->orderBy('comment_count', 'desc');
+        //         break;
+        // }
         
         // filtre date
-        if ($data['after']) {
+        if (isset($data['after'])) {
             $qb->andWhere('a.publishDate > :after')
             ->setParameter('after', $data['after']);
         }
-        if ($data['before']) {
+        if (isset($data['before'])) {
             $qb->andWhere('a.publishDate < :before')
             ->setParameter('before', $data['before']);
         }
 
         // filtre tags
-        if ($data['game']) {
-            $qb->andWhere('t.type = :gaType')
-            ->andWhere('t.name = :gaName')
-                ->setParameter('gaType', $data['game']->getType())
-                ->setParameter('gaName', $data['game']->getName());
+        $tagTypes = ['game', 'genre', 'level', 'modality'];
+        $tagConditions = [];
+        $parameters = [];
+
+        foreach ($tagTypes as $type) {
+            if (isset($data[$type])) {
+                $tagConditions[] = "tag.type = :{$type}Type AND tag.name = :{$type}Name";
+                $parameters["{$type}Type"] = $type;
+                $parameters["{$type}Name"] = $data[$type]->getName();
+            }
         }
-        if ($data['genre']) {
-            $qb->andWhere('t.type = :geType')
-                ->andWhere('t.name = :geName')
-                ->setParameter('geType', $data['genre']->getType())
-                ->setParameter('geName', $data['genre']->getName());
-        }
-        if ($data['level']) {
-            $qb->andWhere('t.type = :lType')
-            ->andWhere('t.name = :lName')
-            ->setParameter('lType', $data['level']->getType())
-            ->setParameter('lName', $data['level']->getName());
-        }
-        if ($data['modality']) {
-            $qb->andWhere('t.type = :mType')
-            ->andWhere('t.name = :mName')
-            ->setParameter('mType', $data['modality']->getType())
-            ->setParameter('mName', $data['modality']->getName());
+
+        if (!empty($tagConditions)) {
+            $qb->leftJoin('a.tags', 'tag')
+                ->andWhere(implode(' OR ', $tagConditions));
+
+            foreach ($parameters as $k => $v) {
+                $qb->setParameter($k, $v);
+            }
+    
+            $qb->having('COUNT(DISTINCT tag.id) = :expectedTagCount')
+                ->setParameter('expectedTagCount', count($tagConditions));
         }
 
         // debug
-        // dd($qb->getQue->getSQL());
-        /* attendu :
-            SELECT a.*, COUNT(c.id) AS comment_count
-            FROM advert a
-            LEFT JOIN comment c ON c.advert_id = a.id
-            GROUP BY a.id
-            ORDER BY comment_count DESC;
-        */
-        
-        // exécution requête
-        $query = $qb->getQuery();
+        // dd($data, $qb->getQuery(), $qb->getQuery()->getResult());
 
-        return $query;
+        return $qb;
     }
 
 }
