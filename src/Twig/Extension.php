@@ -52,7 +52,7 @@ class AppExtension extends AbstractExtension
     {
         $now = new DateTime();
 
-        // convert to array to add week property
+        // convertion en array pour ajouter l'unité semaine
         $timeDiff = (array) $now->diff($date);
         $timeDiff['w'] = floor($timeDiff['d']/7);
         $timeDiff['d'] = $timeDiff['d'] % 7;
@@ -76,5 +76,12 @@ class AppExtension extends AbstractExtension
                 ];
             }
         }
+
+        // évite plantage rafraîchissement nouveau post
+        return [
+            'value' => null,
+            'unit' => null,
+            'text' => 'just now',
+        ];
     }
 }

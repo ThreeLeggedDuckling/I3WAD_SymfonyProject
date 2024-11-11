@@ -11,8 +11,13 @@
 
         <p>
             {% for tag in advert.tags %}
-                <u>{{ tag.name }}</u> 
+                <u>{{ tag.name }}</u>
             {% endfor %}
+        </p>
+        <p>
+            {% if advert.area %}
+                Around : {{ advert.area }}
+            {% endif %}
         </p>
 
         <hr>
@@ -32,25 +37,25 @@
             {# différencier les messages admin #}
                 {% if comment.answerTo is empty %}
                     <div id="{{ comment.id }}">
-                        <div class="rounded border bg-light">
-                            <p>{{ comment.author.username }}</p>
+                        <div class="rounded border border-secondary bg-light">
+                            <p>{{ comment.author.username }} ({{ timeAgo(comment.publishDate).text }})</p>
                             <p>{{ comment.content }}</p>
                         </div>
 
-                        <button class="answerTo">🪅</button>
+                        <button class="answerTo">answer</button>
                     </div>
 
                     {# réponses #}
                     {# voir comment tabuler #}
-                    <div id="a{{ comment.id }}">
+                    <div id="t{{ comment.id }}">
                         {% for answer in comment.answers %}
-                            <div id="{{ comment.id }}">
-                                <div class="rounded border border-secondary bg-light">
-                                    <p>{{ answer.author.username }}</p>
+                            <div id="a{{ answer.id }}">
+                                <div class="rounded border bg-light">
+                                    <p>{{ answer.author.username }} ({{ timeAgo(answer.publishDate).text }})</p>
                                     <p>{{ answer.content }}</p>
                                 </div>
 
-                                <button class="answerTo">🪅</button>
+                                <button class="answerTo">answer</button>
                             </div>
                         {% endfor %}
                     </div>
@@ -64,6 +69,7 @@
 
     <div>
         {# nouveau commentaire#}
+        <p id="answerHelp"></p>
         {% include('advert/_new_comment.html.twig') %}
     </div>
 
@@ -79,7 +85,6 @@
 
 
 
-    {# JS pour réponse #}
     {% block customJS %}
         {{ encore_entry_script_tags('answerComment') }}
     {% endblock %}

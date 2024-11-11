@@ -7,18 +7,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\VarDumper\VarDumper;
 
 class AdvertFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
-
+        
         for ($i = 0; $i < 40; $i++) {
             $advert = new Advert();
             $advert->setAuthor($this->getReference('user' . rand(0, 19)));
-            $advert->setPublishDate(new \DateTime());
+            $advert->setPublishDate($faker->dateTimeBetween('-2 months'));
             $advert->setOpen(true);
             $advert->setContent($faker->paragraph(rand(4, 10)));
 

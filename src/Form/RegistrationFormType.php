@@ -44,6 +44,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            // modifier pour pourvoir mettre pattern regex : "^[a-zA-Z0-9_-]{3,75}$"
             ->add('username', TextType::class);
         ;
     }

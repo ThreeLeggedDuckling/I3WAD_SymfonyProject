@@ -17,13 +17,12 @@
 - vues
     - advert
         - show
-            - fixer pagination
-        - details
-            - comments
-            - new comment
+            - fermeture advert (user + admin)
+            - suppression commentaire (user + admin)
+            - fenêtre contextuelle interaction entre utilisateurs (ajout groupe, message)
+            - différentiation visuelle admin
     - account
         - details
-            - ajouter dans groupe
         - manage
         - confirm delete
     - groupe
@@ -33,8 +32,6 @@
 
 - controlleurs
     - admin
-    - advert
-        - nouveau commentaire
     - account
         - ajout groupe (?)
         - modification mail
@@ -152,11 +149,14 @@
 
 ### 7. Assets
 
+- answerComment.js
 - app.js : import Bootstrap
-- dNav.js : onglets nav dynamiques (marche pas mais bon)
+- dNav.js : apparence dynamique onglets (nav)
 
 ### 8. Autre
 
+- config/packages/**knp_paginator.yaml**
+    - configuration KnpPaginatorBundle
 - config/packages/**security.yaml**
     - redirection (dé)connexion
 - config/**services.yaml**

@@ -30,8 +30,4 @@ Les utilisateurs ont accès à un espace personnel reprennant l'activité des an
 
 ## 2. Liens utiles
 
-Exemples analyse:
-- [Creately Chat Application Template](https://creately.com/diagram/example/i8d5u68p3/uml-class-diagram-for-chat-application)
-- [Creately Online Discussion Template](https://creately.com/diagram/example/ikqawlun/online-discussion-form-uml-diagram)
-- [Creately Social Media Template](https://creately.com/diagram/example/i3dg9go71/social-media-class-diagram)
-- [Résumé notation UML](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/)
+[Tutoriel intégration OpenStreetMap](https://blog.eleven-labs.com/fr/open-street-map-une-alternative-a-google-map/)

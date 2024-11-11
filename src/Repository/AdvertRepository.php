@@ -23,7 +23,7 @@ class AdvertRepository extends ServiceEntityRepository
         ->from('App\Entity\Advert', 'a')
         ->select('a')
         ->where('a.isOpen = true')
-        ->orderBy('a.id', 'desc')
+        ->orderBy('a.publishDate', 'desc')
         ->setMaxResults(3);
         $adverts = $qb->getQuery()->getResult();
         return $adverts;
@@ -36,7 +36,9 @@ class AdvertRepository extends ServiceEntityRepository
             ->where('a.isOpen = true')
             // tri popularité
             ->leftJoin('a.comments', 'c')
-            ->addSelect('COUNT(c.id) AS HIDDEN comment_count');
+            ->addSelect('COUNT(c.id) AS HIDDEN popularity')
+            // tri par défaut
+            ->orderBy('a.publishDate', 'desc');
         
         // filtre date
         if (isset($data['after'])) {

@@ -23,11 +23,30 @@ class UserFixtures extends Fixture
         $faker = Factory::create();
 
         for ($i = 0; $i < 30; $i++) {
+            
             $user = new User();
-            $user->setUsername($faker->randomElement($adjectives) . $faker->randomElement($nouns));
             $user->setEmail("user{$i}@mail.net");
             $user->setPassword($this->passwordHasher->hashPassword($user, "test"));
             
+            switch (rand(1, 5)) {
+                case 1:
+                    $username = ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns));
+                    break;
+                case 2:
+                    $username = $faker->randomElement($adjectives) . '_' . $faker->randomElement($nouns);
+                    break;
+                case 3:
+                    $username = 'The' . ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns));
+                    break;
+                case 4:
+                    $username = 'Xx_' . $faker->randomElement($adjectives) . ucfirst($faker->randomElement($nouns)) . '_xX';
+                    break;
+                case 5:
+                    $username = ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns)) . rand(11,99);
+                    break;
+            }
+            $user->setUsername($username);
+
             if ($i % 5 == 1) {
                 $j = floor($i/4);
                 $user->setEmail("admin{$j}@mail.net");

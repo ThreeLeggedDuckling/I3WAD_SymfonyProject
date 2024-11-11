@@ -12,12 +12,12 @@
 			<li class="nav-item">
 				{# exemple BS
 				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> #}
-				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}" href="{{ path('app_home') }}">Home</a>
+				<a class="nav-link" href="{{ path('app_home') }}">Home</a>
 			</li>
 
 			{% if app.user %}
 				<li class="nav-item">
-					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_advert_index' %}active{% endif %}" href="{{ path('app_advert_index') }}">Adverts</a>
+					<a class="nav-link" href="{{ path('app_advert_index') }}">Adverts</a>
 				</li>
 
 				{% if is_granted('ROLE_ADMIN') %}
@@ -31,17 +31,17 @@
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_logout' %}active{% endif %}" href="{{ path('app_logout') }}">Log Out</a>
+					<a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
 				</li>
 
 			{% else %}
 
 				<li class="nav-item">
-					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}" href="{{ path('app_register') }}">Sign Up</a>
+					<a class="nav-link" href="{{ path('app_register') }}">Sign Up</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link {% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}" href="{{ path('app_login') }}">Log In</a>
+					<a class="nav-link" href="{{ path('app_login') }}">Log In</a>
 				</li>
 
 			{% endif %}
@@ -57,7 +57,9 @@
 </pre> #}
 
 {# trouver pourquoi marche pas pour rendre truc plus simple / propre #}
-{# {% block dNav %}
-	{{ encore_entry_script_tags('app') }}
+{% block customJS %}
+	{{ encore_entry_script_tags('dNav') }}
+{% endblock %}
+{% block customCSS %}
 	{{ encore_entry_link_tags('dNav') }}
-{% endblock %} #}
+{% endblock %}

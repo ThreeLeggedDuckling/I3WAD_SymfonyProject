@@ -17,7 +17,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 40; $i++) {
             $comment = new Comment();
             $comment->setAdvert($this->getReference('advert' . rand(0,39)));
-            $comment->setPublishDate(new \DateTime());
+            $comment->setPublishDate($faker->dateTimeBetween($comment->getAdvert()->getPublishDate()));
             $comment->setAuthor($this->getReference('user' . rand(0,29)));
             $comment->setContent($faker->sentence());
 
@@ -26,29 +26,31 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         }
 
         for ($i = 0; $i <25; $i++) {
+            $ref = $this->getReference('comment' . rand(0, 39));
+
             $comment = new Comment();
-            $comment->setAnswerTo($this->getReference('comment' . rand(0, 39)));
-            $comment->setAdvert($comment->getAnswerTo()->getAdvert());
-            $comment->setPublishDate(new \DateTime());
+            $comment->setAnswerTo($ref);
+            $comment->setAdvert($ref->getAdvert());
+            $comment->setPublishDate($faker->dateTimeBetween($ref->getPublishDate()));
             $comment->setAuthor($this->getReference('user' . rand(0,29)));
             $comment->setContent($faker->sentence(rand(4, 15)));
 
-            // $this->addReference("answer{$i}", $comment);
+            $this->addReference("answer{$i}", $comment);
             $manager->persist($comment);
         }
 
-        // LAISSE TOMBER
-        // for ($i = 0; $i <10; $i++) {
-        //     $comment = new Comment();
-        //     $comment->setAnswerTo($this->getReference('answer' . rand(0, 14)));
-        //     $comment->setAdvert($comment->getAnswerTo()->getAdvert());
-        //     $comment->setPublishDate(new \DateTime());
-        //     $comment->setAuthor($this->getReference('user' . rand(0,19)));
-        //     $comment->setContent($faker->sentence());
+        for ($i = 0; $i <10; $i++) {
+            $ref = $this->getReference('answer' . rand(0, 24));
 
-        //     // $this->addReference("answer{$i}", $comment);
-        //     $manager->persist($comment);
-        // }
+            $comment = new Comment();
+            $comment->setAnswerTo($ref->getAnswerTo());
+            $comment->setAdvert($ref->getAdvert());
+            $comment->setPublishDate($faker->dateTimeBetween($ref->getPublishDate()));
+            $comment->setAuthor($this->getReference('user' . rand(0,19)));
+            $comment->setContent('@' . $ref->getAuthor()->getUsername() . ' ' . $faker->sentence());
+
+            $manager->persist($comment);
+        }
 
         $manager->flush();
     }
