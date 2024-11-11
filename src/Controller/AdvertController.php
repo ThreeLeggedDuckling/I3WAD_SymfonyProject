@@ -31,44 +31,45 @@ final class AdvertController extends AbstractController
 
         // dd($request->query);
 
-        $form = $this->createForm(FilterAdvertsType::class);
+        $form = $this->createForm(FilterAdvertsType::class, null, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             
             $page = 1;
             $filters = $form->getData();
+            $cleanData = [];
             foreach ($filters as $k => $v) {
                 if (!empty($filters[$k])) {
                     $cleanData[$k] = $v;
                 }
             }
 
-            $qb = $advertRepository->filterSearch($cleanData);
-            $adverts = $paginator->paginate(
-                $qb,
-                $page,
-                $limit,
-                array('wrap-queries'=>true) // solution 'Cannot count query that uses a HAVING clause. Use the output walkers for pagination'
-            );
+            // parametres GET
+            $params['page'] = $page;
+            foreach ($cleanData as $k => $v) {
+                if ($v instanceof \DateTime) {
+                    $params[$k] = date_format($v,"Y-m-d");
+                } else {
+                    $params[$k] = $v->getId();
+                }
+            }
+            // dd($cleanData, $params);
 
-            // dd($adverts);
-            return $this->render('advert/index.html.twig', [
-                'adverts' => $adverts,
-                'form' => $form,
-            ]);
+            return $this->redirectToRoute('app_advert_index', $params);
         }
-        
-        // defaut
-        $qb = $advertRepository->createQueryBuilder('a')
-            ->groupBy('a.id')
-            ->where('a.isOpen = true')
-            ->leftJoin('a.comments', 'c')
-            ->addSelect('COUNT(c.id) AS HIDDEN comment_count');
 
+        // population form selon GET
+        $filters = $request->query->all();
+        $form->submit($filters);
+        $filters = $form->getData();
+
+        $qb = $advertRepository->filterSearch($filters);
         $adverts = $paginator->paginate(
             $qb,
-            $page
+            $page,
+            $limit,
+            array('wrap-queries' => true) // solution 'Cannot count query that uses a HAVING clause. Use the output walkers for pagination'
         );
 
         return $this->render('advert/index.html.twig', [

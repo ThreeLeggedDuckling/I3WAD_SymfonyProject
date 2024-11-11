@@ -11,8 +11,8 @@
     </div>
 
     <a href="{{ path('app_advert_new') }}">Create new</a>
-
-    {{ dump(app.request.query) }}
+    
+    {# orderby #}
     {{ knp_pagination_sortable(adverts, 'Newest', 'a.id', {}, {'direction': 'desc'}) }}
     {{ knp_pagination_sortable(adverts, 'Oldest', 'a.id', {}, {'direction': 'asc'}) }}
     {{ knp_pagination_sortable(adverts, 'Most popular', 'comment_count', {}, {'direction': 'desc'}) }}

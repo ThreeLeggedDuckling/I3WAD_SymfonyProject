@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Tag;
-use App\Entity\User;
-use App\Entity\Advert;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -12,22 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class FilterAdvertsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // orderby  <- pris en charge par KnpPaginatorBundle
-            // ->add('orderby', ChoiceType::class, [
-            //     'label' => 'Order by ',
-            //     'choices' => [
-            //         'date (newest)' => 'newest',
-            //         'date (oldest)' => 'oldest',
-            //         'popularity' => 'popularity',
-            //     ]
-            // ])
             
             // date publication
             ->add('after', DateType::class, [
@@ -38,6 +26,7 @@ class FilterAdvertsType extends AbstractType
                 'label' => 'Before ',
                 'required' => false,
             ])
+
             //jeu
             ->add('game', EntityType::class, [
                 'label' => 'Game ',
@@ -51,6 +40,7 @@ class FilterAdvertsType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
+
             // genre
             ->add('genre', EntityType::class, [
                 'label' => 'Genre ',
@@ -64,6 +54,7 @@ class FilterAdvertsType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
+
             // niveau
             ->add('level', EntityType::class, [
                 'label' => 'Level ',
@@ -76,6 +67,7 @@ class FilterAdvertsType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
+
             // modalité
             ->add('modality', EntityType::class, [
                 'label' => 'Modality ',
@@ -89,6 +81,7 @@ class FilterAdvertsType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
+
             // champ région pour irl ?
         ;
     }
@@ -96,6 +89,7 @@ class FilterAdvertsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
         ]);
     }
 }

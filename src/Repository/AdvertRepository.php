@@ -33,22 +33,10 @@ class AdvertRepository extends ServiceEntityRepository
     public function filterSearch(array $data) {
         $qb = $this->createQueryBuilder('a')
             ->groupBy('a.id')
-            ->where('a.isOpen = true');
-
-        // filtre ordre <- pris en charge par KnpPaginatorBundle
-        // switch($data['orderby']){
-        //     case 'newest':
-        //         $qb->orderBy('a.id', 'desc');
-        //         break;
-        //     case 'oldest':
-        //         $qb->orderBy('a.id');
-        //         break;
-        //     case 'popularity':
-        //         $qb->leftJoin('a.comments', 'c')
-        //             ->addSelect('COUNT(c.id) AS HIDDEN comment_count')
-        //             ->orderBy('comment_count', 'desc');
-        //         break;
-        // }
+            ->where('a.isOpen = true')
+            // tri popularité
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('COUNT(c.id) AS HIDDEN comment_count');
         
         // filtre date
         if (isset($data['after'])) {
