@@ -23,8 +23,8 @@ class TagFixtures extends Fixture
             'modality' => $modalities
         ];
 
-        foreach($types as $type => $choice){
-            foreach($choice as $k => $v){
+        foreach ($types as $type => $choice) {
+            foreach ($choice as $k => $v) {
                 $tag = new Tag();
                 $tag->setName($v);
                 $tag->setType($type);

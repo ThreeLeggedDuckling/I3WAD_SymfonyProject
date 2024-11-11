@@ -17,17 +17,18 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
         $gMembers = $campaign->getPlayingGroup()->getMembers();
         $faker = Factory::create();
 
-        foreach($gMembers as $member){
+        foreach ($gMembers as $member) {
             $file = new File();
             $file->setCampaign($campaign);
             $file->setAuthor($member);
             $file->setCreationDate(new DateTime());
 
-            if($member === $campaign->getMaster()){
+            if ($member === $campaign->getMaster()) {
                 $file->setName('Campaign progess sheet');
                 $file->setType('scenario');
                 $file->setFormat('doc');
-            } else{
+            }
+            else {
                 $file->setName($member->getUsername() . '\'s sheet');
                 $file->setType('character sheet');
                 $file->setFormat('pdf');

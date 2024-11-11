@@ -14,7 +14,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for($i = 0; $i < 40; $i++){
+        for ($i = 0; $i < 40; $i++) {
             $comment = new Comment();
             $comment->setAdvert($this->getReference('advert' . rand(0,39)));
             $comment->setPublishDate(new \DateTime());
@@ -25,7 +25,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($comment);
         }
 
-        for($i = 0; $i <25; $i++){
+        for ($i = 0; $i <25; $i++) {
             $comment = new Comment();
             $comment->setAnswerTo($this->getReference('comment' . rand(0, 39)));
             $comment->setAdvert($comment->getAnswerTo()->getAdvert());
@@ -38,7 +38,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         }
 
         // LAISSE TOMBER
-        // for($i = 0; $i <10; $i++){
+        // for ($i = 0; $i <10; $i++) {
         //     $comment = new Comment();
         //     $comment->setAnswerTo($this->getReference('answer' . rand(0, 14)));
         //     $comment->setAdvert($comment->getAnswerTo()->getAdvert());

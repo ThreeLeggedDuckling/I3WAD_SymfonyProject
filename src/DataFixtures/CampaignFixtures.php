@@ -15,7 +15,7 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
         $games = ['D&D 5E', 'Vampire: the Masquerade', 'Degenesis', 'Mausritter', 'City of Mist', 'Insectopia'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $campaign = new Campaign();
             $campaign->setName($faker->sentence(4));
             $campaign->setGame($faker->randomElement($games));
@@ -29,7 +29,8 @@ class CampaignFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies(){
+    public function getDependencies()
+    {
         return [GroupFixtures::class];
     }
 }

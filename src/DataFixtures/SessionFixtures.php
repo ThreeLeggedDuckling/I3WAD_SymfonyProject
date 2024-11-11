@@ -14,7 +14,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for($i = 0; $i < 7; $i++){
+        for ($i = 0; $i < 7; $i++) {
             $session = new Session();
             $session->setCampaign($this->getReference('campaign' . rand(0, 9)));
             $session->setScheduled($faker->dateTimeThisYear());

@@ -14,7 +14,7 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $usersArr = [];
-        for($i = 0; $i < 20; $i++){
+        for ($i = 0; $i < 20; $i++) {
             $usersArr[] = $this->getReference("user{$i}");
         }
 
@@ -22,13 +22,13 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
         $nouns = ['company', 'fellowship', 'fleet'];
         $faker = Factory::create();
 
-        for($i = 0; $i < 7; $i++){
+        for ($i = 0; $i < 7; $i++) {
             $members = $faker->randomElements($usersArr, 4);
 
             $group = new Group();
             $group->setName('the_' . $faker->randomElement($adjectives) . '_' . $faker->randomElement($nouns));
             
-            foreach($members as $member){
+            foreach ($members as $member) {
                 $group->addMember($member);
             }
             $group->addAdmin($faker->randomElement($group->getMembers()));
@@ -40,7 +40,8 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies(){
+    public function getDependencies()
+    {
         return [UserFixtures::class];
     }
 
