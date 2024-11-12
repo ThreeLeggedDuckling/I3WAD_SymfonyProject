@@ -25,6 +25,11 @@
         <p>{{ advert.content }}</p>
     </div>
 
+    {% if app.user == advert.author or is_granted('ROLE_ADMIN') %}
+        <button id="closeAd">Close advert</button>
+        <button id="deleteAd">Delete advert</button>
+    {% endif %}
+
     {# commentaires #}
     <h3>Comments ({{ advert.comments|length }})</h3>
 
@@ -42,7 +47,9 @@
                             <p>{{ comment.content }}</p>
                         </div>
 
-                        <button class="answerTo">answer</button>
+                        <button class="answerTo">Answer</button>
+                        {% if app.user == comment.author %}{% endif %}
+                        
                     </div>
 
                     {# réponses #}
@@ -55,7 +62,7 @@
                                     <p>{{ answer.content }}</p>
                                 </div>
 
-                                <button class="answerTo">answer</button>
+                                <button class="answerTo">Answer</button>
                             </div>
                         {% endfor %}
                     </div>
@@ -86,6 +93,8 @@
 
 
     {% block customJS %}
+        {{ encore_entry_script_tags('advertClose') }}
+        {{ encore_entry_script_tags('advertDelete') }}
         {{ encore_entry_script_tags('answerComment') }}
     {% endblock %}
     {# {% block customCSS %}

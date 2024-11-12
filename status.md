@@ -149,6 +149,8 @@
 
 ### 7. Assets
 
+- advertClose.js
+- advertDelete.js
 - answerComment.js
 - app.js : import Bootstrap
 - dNav.js : apparence dynamique onglets (nav)
@@ -166,5 +168,7 @@
     - fonction `common()`
     - fonction `timeAgo()`
 - **.env**
+    - configuration connexion db
+- **.env.local**
     - configuration connexion db
 - **webpack.config.js**

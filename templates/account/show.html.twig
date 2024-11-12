@@ -110,6 +110,7 @@
 
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <p class="card-text">{{ ad.content|wrap(75) }}</p>
+                                    <a href="{{ path('app_advert_show', {'id': ad.id}) }}" class="align-self-end">more</a>
                                 </div>
 
                                 <div class='card-footer d-flex justify-content-end'>
