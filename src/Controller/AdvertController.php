@@ -97,9 +97,9 @@ final class AdvertController extends AbstractController
 
             $tagtypes = ['game', 'genre', 'level', 'modality'];
             foreach($tagtypes as $type) {
-                foreach($form->get($type)->getData() as $elem) {
-                    // $tags[] = $elem;
-                    $advert->addTag($elem);
+                $tag = $form->get($type)->getData();
+                if (isset($tag)) {
+                    $advert->addTag($tag);
                 }
             }
 

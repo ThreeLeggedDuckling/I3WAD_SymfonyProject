@@ -169,6 +169,9 @@
     - fonction `timeAgo()`
 - **.env**
     - configuration connexion db
-- **.env.local**
-    - configuration connexion db
+- **.env.local** (sur serveur)
 - **webpack.config.js**
+
+
+
+vérifier signification réponse 'getfacl public'

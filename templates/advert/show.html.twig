@@ -3,8 +3,13 @@
 {% block title %}Advert{% endblock %}
 
 {% block body %}
-    <h1>{{ advert.author.username }} is looking for</h1>
 
+    {% if advert.isOpen %}
+        <h1>{{ advert.author.username }} is looking for</h1>
+    {% else %}
+        <h1>{{ advert.author.username }} was looking for</h1>
+    {% endif %}
+    
     {# annonce #}
     <div class="rounded border bg-light">
         <p>posted on {{ advert.publishDate|format_datetime(pattern: 'yy.MM.dd') }} ({{ timeAgo(advert.publishDate).text }})</p>
@@ -26,7 +31,9 @@
     </div>
 
     {% if app.user == advert.author or is_granted('ROLE_ADMIN') %}
-        <button id="closeAd">Close advert</button>
+        {% if advert.isOpen %}
+            <button id="closeAd">Close advert</button>
+        {% endif %}
         <button id="deleteAd">Delete advert</button>
     {% endif %}
 
@@ -47,8 +54,10 @@
                             <p>{{ comment.content }}</p>
                         </div>
 
-                        <button class="answerTo">Answer</button>
-                        {% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
+                        {% if advert.isOpen %}
+                            <button class="answerTo">Answer</button>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <button class="deleteComment">Delete</button>
                         {% endif %}
                         
@@ -65,8 +74,10 @@
                                     <p>{{ answer.content }}</p>
                                 </div>
 
-                                <button class="answerTo">Answer</button>
-                                {% if app.user == answer.author or is_granted('ROLE_ADMIN') %}
+                                {% if advert.isOpen %}
+                                    <button class="answerTo">Answer</button>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
                                     <button class="deleteComment">Delete</button>
                                 {% endif %}
                             </div>
@@ -79,14 +90,16 @@
         {% endif %}
     </div>
 
-    <h3>Leave a comment</h3>
+    {# nouveau commentaire#}
+    {% if advert.isOpen %}
+        <h3>Leave a comment</h3>
 
-    <div>
-        {# nouveau commentaire#}
-        <p id="answerHelp"></p>
-        {% include('advert/_new_comment.html.twig') %}
-    </div>
-
+        <div>
+            <p id="answerHelp"></p>
+            {% include('advert/_new_comment.html.twig') %}
+        </div>
+    {% endif %}
+    
 
     {# séparation trucs par défaut symfony #}
     <hr>
