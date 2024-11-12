@@ -134,7 +134,7 @@
                         
                         {% for comment in user.comments %}
                             <p>
-                                {{ timeAgo(comment.publishDate).text }} - "{{ comment.content|wrap() }}" <a href="">see</a>
+                                {{ timeAgo(comment.publishDate).text }} - "{{ comment.content|wrap() }}" <a href="{{ path('app_advert_show', {'id': comment.advert.id}) }}#{{ comment.id }}">see</a>
                             </p>
                             {# {{ dump(comment) }} #}
                             

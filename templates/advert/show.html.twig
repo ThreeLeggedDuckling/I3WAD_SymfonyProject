@@ -48,13 +48,16 @@
                         </div>
 
                         <button class="answerTo">Answer</button>
-                        {% if app.user == comment.author %}{% endif %}
+                        {% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
+                            <button class="deleteComment">Delete</button>
+                        {% endif %}
                         
                     </div>
 
                     {# réponses #}
                     {# voir comment tabuler #}
                     <div id="t{{ comment.id }}">
+
                         {% for answer in comment.answers %}
                             <div id="a{{ answer.id }}">
                                 <div class="rounded border bg-light">
@@ -63,8 +66,12 @@
                                 </div>
 
                                 <button class="answerTo">Answer</button>
+                                {% if app.user == answer.author or is_granted('ROLE_ADMIN') %}
+                                    <button class="deleteComment">Delete</button>
+                                {% endif %}
                             </div>
                         {% endfor %}
+
                     </div>
                 {% endif %}
 
