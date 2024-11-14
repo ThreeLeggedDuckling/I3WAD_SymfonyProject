@@ -22,8 +22,6 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('adBasis', './assets/adBasis.js')
-    .addEntry('advertClose', './assets/advertClose.js')
-    .addEntry('advertDelete', './assets/advertDelete.js')
     .addEntry('answerComment', './assets/answerComment.js')
     .addEntry('dNav', './assets/dNav.js')
 

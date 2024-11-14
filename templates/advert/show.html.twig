@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    {# liens retour #}
+    <a href="{{ path('app_advert_index') }}">Back to list</a>
+
+
     {% if advert.isOpen %}
         <h1>{{ advert.author.username }} is looking for</h1>
     {% else %}
@@ -13,7 +17,6 @@
     {# annonce #}
     <div class="rounded border bg-light">
         <p>posted on {{ advert.publishDate|format_datetime(pattern: 'yy.MM.dd') }} ({{ timeAgo(advert.publishDate).text }})</p>
-
         <p>
             {% for tag in advert.tags %}
                 <u>{{ tag.name }}</u>
@@ -24,18 +27,17 @@
                 Around : {{ advert.area }}
             {% endif %}
         </p>
-
         <hr>
-        
         <p>{{ advert.content }}</p>
     </div>
 
     {% if app.user == advert.author or is_granted('ROLE_ADMIN') %}
         {% if advert.isOpen %}
-            <button id="closeAd">Close advert</button>
+            {% include('advert/_close_form.html.twig') %}
         {% endif %}
-        <button id="deleteAd">Delete advert</button>
+            {{ include('advert/_delete_form.html.twig') }}
     {% endif %}
+    {# <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a> #}
 
     {# commentaires #}
     <h3>Comments ({{ advert.comments|length }})</h3>
@@ -46,7 +48,6 @@
         {% else %}
             {% for comment in advert.comments %}
             
-            {# différencier les messages admin #}
                 {% if comment.answerTo is empty %}
                     <div id="{{ comment.id }}">
                         <div class="rounded border border-secondary bg-light">
@@ -58,13 +59,12 @@
                             <button class="answerTo">Answer</button>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
-                            <button class="deleteComment">Delete</button>
+                            {% include('comment/_delete_form.html.twig') %}
                         {% endif %}
                         
                     </div>
 
                     {# réponses #}
-                    {# voir comment tabuler #}
                     <div id="t{{ comment.id }}">
 
                         {% for answer in comment.answers %}
@@ -78,7 +78,7 @@
                                     <button class="answerTo">Answer</button>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <button class="deleteComment">Delete</button>
+                                    {% include('comment/_delete_form.html.twig') %}
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -90,31 +90,19 @@
         {% endif %}
     </div>
 
-    {# nouveau commentaire#}
+    {# nouveau commentaire #}
     {% if advert.isOpen %}
         <h3>Leave a comment</h3>
 
         <div>
             <p id="answerHelp"></p>
-            {% include('advert/_new_comment.html.twig') %}
+            {% include('comment/_new_comment.html.twig') %}
         </div>
     {% endif %}
-    
-
-    {# séparation trucs par défaut symfony #}
-    <hr>
-
-    <a href="{{ path('app_advert_index') }}">back to list</a>
-
-    {# <a href="{{ path('app_advert_edit', {'id': advert.id}) }}">edit</a> #}
-
-    {# {{ include('advert/_delete_form.html.twig') }} #}
 
 
-
+    {# scripts #}
     {% block customJS %}
-        {{ encore_entry_script_tags('advertClose') }}
-        {{ encore_entry_script_tags('advertDelete') }}
         {{ encore_entry_script_tags('answerComment') }}
     {% endblock %}
     {# {% block customCSS %}

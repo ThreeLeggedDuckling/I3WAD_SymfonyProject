@@ -116,82 +116,84 @@ final class AdvertController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_advert_show', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'app_advert_show', methods: ['GET'])]
     public function show(Advert $advert, AdvertRepository $advertRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $em): Response
     {
         if (!$this->isGranted('ROLE_USER') && !in_array($advert, $advertRepository->latest())) {
             return $this->redirectToRoute('app_home');
         }
 
-        $form = $this->createForm(CommentType::class);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $data = $form->getData();
-            $newComment = new Comment();
-
-            $newComment->setContent($data['content']);
-            if ($data['answering'] != null) {
-                $newComment->setAnswerTo($commentRepository->find($data['answering']));
-            }
-
-            $newComment->setAdvert($advert);
-            $newComment->setPublishDate(new \DateTime());
-            $newComment->setAuthor($this->getUser());
-
-            // dd($newComment);
-            $em->persist($newComment);
-            $em->flush();
-
-            return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
-        }
+        $form = $this->createForm(CommentType::class, null, [
+            'action' => $this->generateUrl('app_comment_add', ['id' => $advert->getId()]),
+            'method' => 'POST',
+        ]);
 
         return $this->render('advert/show.html.twig', [
             'advert' => $advert,
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_advert_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Advert $advert, EntityManagerInterface $entityManager): Response
+    
+    #[Route('/{id}/close', name: 'app_advert_close', methods: ['POST'])]
+    public function closeAdvert(Request $request, Advert $advert, EntityManagerInterface $em): Response
     {
-        // vérification droit modification
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
         }
-        elseif ($this->getUser() != $advert->getAuthor()) {
+        // vérification droit modification
+        elseif ($this->getUser() != $advert->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
         }
-
-        $form = $this->createForm(AdvertType::class, $advert);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_advert_index', [], Response::HTTP_SEE_OTHER);
+        
+        if($this->isCsrfTokenValid('close'.$advert->getId(), $request->getPayload()->getString('_token'))) {
+            $advert->setOpen(false);
+            $em->flush();
         }
-
-        return $this->render('advert/edit.html.twig', [
-            'advert' => $advert,
-            'form' => $form,
-        ]);
+        
+        return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
     }
+    
+    #[Route('/{id}', name: 'app_advert_delete', methods: ['POST'])]
+    public function delete(Request $request, Advert $advert, EntityManagerInterface $em): Response
+    {
+        // dd(($this->getUser() != $advert->getAuthor()), (!$this->isGranted('ROLE_ADMIN')), ($this->getUser() != $advert->getAuthor() && !$this->isGranted('ROLE_ADMIN')));
 
-    // vérifier comment implémenter suppression
-    // #[Route('/{id}', name: 'app_advert_delete', methods: ['POST'])]
-    // public function delete(Request $request, Advert $advert, EntityManagerInterface $entityManager): Response
+        if ($this->getUser() != $advert->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
+        }
+        
+        if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->getPayload()->getString('_token'))) {
+            $em->remove($advert);
+            $em->flush();
+        }
+        
+        return $this->redirectToRoute('app_advert_index');
+    }
+    
+    // besoin route modification ?
+    // #[Route('/{id}/edit', name: 'app_advert_edit', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, Advert $advert, EntityManagerInterface $entityManager): Response
     // {
-    //     if ($this->getUser() != $advert->getAuthor() || $this->isGranted('ROLE_ADMIN')) {
+    //     // vérification droit modification
+    //     if (!$this->isGranted('ROLE_USER')) {
+    //         return $this->redirectToRoute('app_home');
+    //     }
+    //     elseif ($this->getUser() != $advert->getAuthor()) {
     //         return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()]);
     //     }
 
-    //     if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->getPayload()->getString('_token'))) {
-    //         $entityManager->remove($advert);
+    //     $form = $this->createForm(AdvertType::class, $advert);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
     //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_advert_index', [], Response::HTTP_SEE_OTHER);
     //     }
 
-    //     return $this->redirectToRoute('app_advert_index', [], Response::HTTP_SEE_OTHER);
+    //     return $this->render('advert/edit.html.twig', [
+    //         'advert' => $advert,
+    //         'form' => $form,
+    //     ]);
     // }
 }

@@ -1,0 +1,4 @@
+<form method="POST" action="{{ path('app_advert_close', {'id': advert.id}) }}" onsubmit="return confirm('Are you sure you want to close this advert ?\nClosed adverts don\'t appear in search and can\'t be commented on.\nThis action is irreversible.');">
+    <input type="hidden" name="_token" value="{{ csrf_token('close' ~ advert.id) }}">
+    <button>{{ button_label|default('Close Advert') }}</button>
+</form>
