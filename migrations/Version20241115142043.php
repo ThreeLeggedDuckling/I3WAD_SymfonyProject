@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241112081725 extends AbstractMigration
+final class Version20241115142043 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,6 +26,7 @@ final class Version20241112081725 extends AbstractMigration
         $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, advert_id INT NOT NULL, author_id INT DEFAULT NULL, answer_to_id INT DEFAULT NULL, publish_date DATETIME NOT NULL, content LONGTEXT NOT NULL, INDEX IDX_9474526CD07ECCB6 (advert_id), INDEX IDX_9474526CF675F31B (author_id), INDEX IDX_9474526CAB0FA336 (answer_to_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE file (id INT AUTO_INCREMENT NOT NULL, campaign_id INT NOT NULL, author_id INT NOT NULL, name VARCHAR(100) NOT NULL, creation_date DATETIME NOT NULL, last_modified DATETIME DEFAULT NULL, format VARCHAR(10) DEFAULT NULL, type VARCHAR(35) DEFAULT NULL, adress LONGTEXT DEFAULT NULL, INDEX IDX_8C9F3610F639F774 (campaign_id), INDEX IDX_8C9F3610F675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `group` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, author_id INT NOT NULL, user_target_id INT DEFAULT NULL, group_target_id INT DEFAULT NULL, send_at DATETIME NOT NULL, content LONGTEXT NOT NULL, to_group TINYINT(1) NOT NULL, INDEX IDX_B6BD307FF675F31B (author_id), INDEX IDX_B6BD307F156E8682 (user_target_id), INDEX IDX_B6BD307FD53D5787 (group_target_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE session (id INT AUTO_INCREMENT NOT NULL, campaign_id INT NOT NULL, scheduled DATETIME NOT NULL, run_time INT DEFAULT NULL, INDEX IDX_D044D5D4F639F774 (campaign_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tag (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(20) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, username VARCHAR(100) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -42,6 +43,9 @@ final class Version20241112081725 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CAB0FA336 FOREIGN KEY (answer_to_id) REFERENCES comment (id)');
         $this->addSql('ALTER TABLE file ADD CONSTRAINT FK_8C9F3610F639F774 FOREIGN KEY (campaign_id) REFERENCES campaign (id)');
         $this->addSql('ALTER TABLE file ADD CONSTRAINT FK_8C9F3610F675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307FF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307F156E8682 FOREIGN KEY (user_target_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307FD53D5787 FOREIGN KEY (group_target_id) REFERENCES `group` (id)');
         $this->addSql('ALTER TABLE session ADD CONSTRAINT FK_D044D5D4F639F774 FOREIGN KEY (campaign_id) REFERENCES campaign (id)');
         $this->addSql('ALTER TABLE group_member ADD CONSTRAINT FK_A36222A8A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE group_member ADD CONSTRAINT FK_A36222A8FE54D947 FOREIGN KEY (group_id) REFERENCES `group` (id) ON DELETE CASCADE');
@@ -62,6 +66,9 @@ final class Version20241112081725 extends AbstractMigration
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CAB0FA336');
         $this->addSql('ALTER TABLE file DROP FOREIGN KEY FK_8C9F3610F639F774');
         $this->addSql('ALTER TABLE file DROP FOREIGN KEY FK_8C9F3610F675F31B');
+        $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307FF675F31B');
+        $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307F156E8682');
+        $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307FD53D5787');
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4F639F774');
         $this->addSql('ALTER TABLE group_member DROP FOREIGN KEY FK_A36222A8A76ED395');
         $this->addSql('ALTER TABLE group_member DROP FOREIGN KEY FK_A36222A8FE54D947');
@@ -73,6 +80,7 @@ final class Version20241112081725 extends AbstractMigration
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE file');
         $this->addSql('DROP TABLE `group`');
+        $this->addSql('DROP TABLE message');
         $this->addSql('DROP TABLE session');
         $this->addSql('DROP TABLE tag');
         $this->addSql('DROP TABLE user');

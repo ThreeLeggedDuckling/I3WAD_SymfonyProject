@@ -47,17 +47,10 @@ class Advert
     {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        // $this->hydrate($ini);
+        // valeurs par défaut
+        $this->setPublishDate(new \DateTime());
+        $this->setOpen(true);
     }
-
-    // public function hydrate (array $ini){
-    //     foreach ($ini as $key => $value){
-    //         $method = "set" . ucfirst($key);
-    //         if (method_exists($this, $method)) {
-    //             $this->$method ($value);
-    //         }
-    //     }
-    // }
 
     public function getId(): ?int
     {

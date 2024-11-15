@@ -34,7 +34,6 @@ class CommentController extends AbstractController
             }
 
             $newComment->setAdvert($advert);
-            $newComment->setPublishDate(new \DateTime());
             $newComment->setAuthor($this->getUser());
 
             $em->persist($newComment);

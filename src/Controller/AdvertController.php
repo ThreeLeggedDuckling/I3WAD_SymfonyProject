@@ -29,8 +29,6 @@ final class AdvertController extends AbstractController
         $page = $request->query->getInt('page', 1); // ?page
         $limit = 9;
 
-        // dd($request->query);
-
         $form = $this->createForm(FilterAdvertsType::class, null, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
@@ -54,7 +52,6 @@ final class AdvertController extends AbstractController
                     $params[$k] = $v->getId();
                 }
             }
-            // dd($cleanData, $params);
 
             return $this->redirectToRoute('app_advert_index', $params);
         }
@@ -69,7 +66,7 @@ final class AdvertController extends AbstractController
             $qb,
             $page,
             $limit,
-            array('wrap-queries' => true) // solution 'Cannot count query that uses a HAVING clause. Use the output walkers for pagination'
+            array('wrap-queries' => true) // solution pour 'Cannot count query that uses a HAVING clause. Use the output walkers for pagination'
         );
 
         return $this->render('advert/index.html.twig', [
@@ -79,7 +76,7 @@ final class AdvertController extends AbstractController
     }
 
     #[Route('/new', name: 'app_advert_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
@@ -92,9 +89,6 @@ final class AdvertController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $advert->setAuthor($this->getUser());
-            $advert->setPublishDate(new \DateTime());
-            $advert->setOpen(true);
-
             $tagtypes = ['game', 'genre', 'level', 'modality'];
             foreach($tagtypes as $type) {
                 $tag = $form->get($type)->getData();
@@ -102,11 +96,9 @@ final class AdvertController extends AbstractController
                     $advert->addTag($tag);
                 }
             }
+            $em->persist($advert);
+            $em->flush();
 
-            $entityManager->persist($advert);
-            $entityManager->flush();
-
-            // réparer problème timeAgo dans vue
             return $this->redirectToRoute('app_advert_show', ['id' => $advert->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -117,7 +109,7 @@ final class AdvertController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_advert_show', methods: ['GET'])]
-    public function show(Advert $advert, AdvertRepository $advertRepository, Request $request, CommentRepository $commentRepository, EntityManagerInterface $em): Response
+    public function show(Advert $advert, AdvertRepository $advertRepository): Response
     {
         if (!$this->isGranted('ROLE_USER') && !in_array($advert, $advertRepository->latest())) {
             return $this->redirectToRoute('app_home');

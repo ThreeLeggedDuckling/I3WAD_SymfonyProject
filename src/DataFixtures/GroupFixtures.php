@@ -14,7 +14,7 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $usersArr = [];
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 29; $i++) {
             $usersArr[] = $this->getReference("user{$i}");
         }
 

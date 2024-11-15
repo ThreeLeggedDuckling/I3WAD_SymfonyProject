@@ -37,11 +37,18 @@ class Group
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'is_admin')]
     private Collection $admins;
 
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'groupTarget')]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->campaigns = new ArrayCollection();
         $this->members = new ArrayCollection();
         $this->admins = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,6 +147,36 @@ class Group
     {
         if ($this->admins->removeElement($admin)) {
             $admin->removeIsAdmin($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setGroupTarget($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getGroupTarget() === $this) {
+                $message->setGroupTarget(null);
+            }
         }
 
         return $this;

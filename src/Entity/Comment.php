@@ -41,6 +41,7 @@ class Comment
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->setPublishDate(new \DateTime());
     }
 
     public function getId(): ?int

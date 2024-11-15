@@ -91,7 +91,7 @@
     </div>
 
     {# nouveau commentaire #}
-    {% if advert.isOpen %}
+    {% if advert.isOpen and is_granted('ROLE_USER') %}
         <h3>Leave a comment</h3>
 
         <div>
