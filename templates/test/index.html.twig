@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Controller!{% endblock %}
+
+{% block body %}
+
+    {# {{dump(users)}} #}
+
+    <ul>
+    {% for u in users %}
+        <li>{{ u.username }} messages (📨 {{ u.sendMessages|length }} - 📩 {{ u.receivedMessages|length }})</li>
+    {% endfor %}
+    </ul>
+
+    <hr>
+    {# {{dump(groups)}} #}
+
+    <ul>
+    {% for g in groups %}
+        <li>{{ g.name }} [id : {{ g.id }}] messages (🪧 {{ g.messages|length }})</li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
