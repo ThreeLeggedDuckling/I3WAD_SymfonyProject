@@ -16,6 +16,10 @@ final class AccountController extends AbstractController
     #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('account/show.html.twig', [
             'user' => $user,
         ]);
@@ -25,6 +29,10 @@ final class AccountController extends AbstractController
     #[Route('/{id}/edit', name: 'app_account_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser() != $user) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
