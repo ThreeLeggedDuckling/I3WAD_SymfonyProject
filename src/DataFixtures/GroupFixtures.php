@@ -18,6 +18,19 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
             $usersArr[] = $this->getReference("user{$i}");
         }
 
+        $dummy = [
+            'The Dicey Alliance',
+            'Critical Hit Crew',
+            'Starship Syndicate',
+            'Wasteland Wanderers',
+            'Mystic & Mechs',
+            'Post-Apoc Adventurers',
+            'Dungeon Delvers United',
+            'Cosmic Conquerors',
+            'The Last Safe Haven',
+            'Neon Knights',
+        ];
+
         $adjectives = ['awsome', 'phenomenal', 'astral'];
         $nouns = ['company', 'fellowship', 'fleet'];
         $faker = Factory::create();
@@ -26,7 +39,8 @@ class GroupFixtures extends Fixture implements DependentFixtureInterface
             $members = $faker->randomElements($usersArr, 4);
 
             $group = new Group();
-            $group->setName('the_' . $faker->randomElement($adjectives) . '_' . $faker->randomElement($nouns));
+            $group->setName($faker->randomElement($dummy));
+            unset($dummy[array_search($group->getName(), $dummy)]);
             
             foreach ($members as $member) {
                 $group->addMember($member);

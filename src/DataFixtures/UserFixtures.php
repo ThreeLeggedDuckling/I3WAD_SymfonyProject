@@ -18,34 +18,27 @@ class UserFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
-        $adjectives = ['great', 'awkward', 'dark', 'funny', 'weird', 'awesome', 'ancient'];
-        $nouns = ['table', 'plant', 'starfish', 'ninja', 'fruit', 'mess', 'gremlin', 'sock'];
         $faker = Factory::create();
+        $dummy = [
+            'Cyborg_Adventurer', 'Quantum_Sorcerer', 'Starship_Pirate',
+            'Bio_Engineer-X', 'Neon_Shadow', 'Wasteland_Stalker',
+            'Mech_Warrior_X', 'Rogue_Astronaut', 'Cyberpunk_Neon',
+            'Galactic_Bounty', 'Mutant_Outlaw', 'Void_Explorer',
+            'Quantum_Mystic', 'Post_Apoc_Ranger', 'Space-Faring_Templar',
+            'Android_Scout', 'Neon_Mercenary', 'Plague_Doctor_X',
+            'Techno_Sorcerer', 'Galactic_Warden', 'Urban_Detective',
+            'Psi_Monk', 'Starborn_Warrior', 'Retro_Hacker',
+            'Outlaw_Engineer', 'Noir_Investigator', 'Galactic_Freelancer',
+            'Mech-Ranger', 'Wasteland_Vigilante', 'SkyPirate_X',
+        ];
 
         for ($i = 0; $i < 30; $i++) {
             
             $user = new User();
             $user->setEmail("user{$i}@mail.net");
             $user->setPassword($this->passwordHasher->hashPassword($user, "test"));
-            
-            switch (rand(1, 5)) {
-                case 1:
-                    $username = ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns));
-                    break;
-                case 2:
-                    $username = $faker->randomElement($adjectives) . '_' . $faker->randomElement($nouns);
-                    break;
-                case 3:
-                    $username = 'The' . ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns));
-                    break;
-                case 4:
-                    $username = 'Xx_' . $faker->randomElement($adjectives) . ucfirst($faker->randomElement($nouns)) . '_xX';
-                    break;
-                case 5:
-                    $username = ucfirst($faker->randomElement($adjectives)) . ucfirst($faker->randomElement($nouns)) . rand(11,99);
-                    break;
-            }
-            $user->setUsername($username);
+            $user->setUsername($faker->randomElement($dummy));
+            unset($dummy[array_search($user->getUsername(), $dummy)]);
 
             if ($i % 5 == 1) {
                 $j = floor($i/4);
