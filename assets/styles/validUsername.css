@@ -1,0 +1,20 @@
+input {
+    border-radius: 5px;
+    margin: 1px 5px;
+}
+
+input:valid {
+    border-color: #00800080;
+}
+
+input:invalid, input.taken {
+    border-color: #ff000080;
+}
+
+input:focus {
+    outline: 1px inset #66b5ff;
+}
+
+input, input:placeholder-shown {
+    border: 1px solid #00000080;
+}

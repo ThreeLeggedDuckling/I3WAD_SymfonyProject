@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -40,4 +42,28 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
+
+    #[Route('/register/verifyusername', name: 'app_register_verifyusername', methods: ['POST'])]
+    public function verifyUsername(Request $request, UserRepository $userRepository, SerializerInterface $srlz): Response
+    {
+        // besoin vérification ?
+        if($request->isMethod('POST')) {
+            // $response['request.content'] = $request->getContent();
+            $username = $request->getContent();
+            $results = $userRepository->findBy(['username' => $username]);
+            $response = [
+                'available' => count($results) > 0 ? false : true,
+                'message' => count($results) > 0 ? 'username already taken' : 'username available',
+            ];
+
+            return new Response($srlz->serialize($response, 'json'));
+        }
+
+        // ... besoin ?
+        $response = [
+            'message' => 'something went wrong, not sure what',
+        ];
+        return new Response($srlz->serialize($response, 'json'));
+    }
+
 }

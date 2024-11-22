@@ -23,7 +23,9 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('adBasis', './assets/adBasis.js')
     .addEntry('answerComment', './assets/answerComment.js')
-    .addEntry('dNav', './assets/dNav.js')
+    .addEntry('nav', './assets/nav.js')
+    .addEntry('seeUser', './assets/seeUser.js')
+    .addEntry('validUsername', './assets/validUsername.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

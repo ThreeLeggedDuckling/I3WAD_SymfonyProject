@@ -4,15 +4,19 @@
 
 {% block body %}
 
+    {# modal #}
+    {% include "includes/user_modal.html.twig" %}
+
     {# liens retour #}
     <a href="{{ path('app_advert_index') }}">Back to list</a>
 
 
-    {% if advert.isOpen %}
-        <h1>{{ advert.author.username }} is looking for</h1>
-    {% else %}
-        <h1>{{ advert.author.username }} was looking for</h1>
-    {% endif %}
+    <h1>
+        <span {% if advert.author != app.user %}class="userPL"{% endif %}>{{ advert.author.username }}</span>
+        {% if advert.isOpen %} is {% else %} was {% endif %}
+        looking for
+    </h1>
+    
     
     {# annonce #}
     <div class="rounded border bg-light">
@@ -51,7 +55,9 @@
                 {% if comment.answerTo is empty %}
                     <div id="{{ comment.id }}">
                         <div class="rounded border border-secondary bg-light">
-                            <p>{{ comment.author.username }} ({{ timeAgo(comment.publishDate).text }})</p>
+                            <p>
+                                <span {% if comment.author != app.user %}class="userPL"{% endif %}>{{ comment.author.username }}</span> ({{ timeAgo(comment.publishDate).text }})
+                            </p>
                             <p>{{ comment.content }}</p>
                         </div>
 
@@ -70,7 +76,7 @@
                         {% for answer in comment.answers %}
                             <div id="a{{ answer.id }}">
                                 <div class="rounded border bg-light">
-                                    <p>{{ answer.author.username }} ({{ timeAgo(answer.publishDate).text }})</p>
+                                    <p><span {% if answer.author != app.user %}class="userPL"{% endif %}>{{ answer.author.username }}</span> ({{ timeAgo(answer.publishDate).text }})</p>
                                     <p>{{ answer.content }}</p>
                                 </div>
 
@@ -104,8 +110,9 @@
     {# scripts #}
     {% block customJS %}
         {{ encore_entry_script_tags('answerComment') }}
+        {{ encore_entry_script_tags('seeUser') }}
     {% endblock %}
-    {# {% block customCSS %}
-        {{ encore_entry_link_tags('') }}
-    {% endblock %} #}
+    {% block customCSS %}
+        {{ encore_entry_link_tags('seeUser') }}
+    {% endblock %}
 {% endblock %}

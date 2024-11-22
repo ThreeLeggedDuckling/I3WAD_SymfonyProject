@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,13 +14,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/account')]
 final class AccountController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
-    public function show(User $user): Response
+
+    #[Route('/{username}', name: 'app_account_show', methods: ['GET'])]
+    public function show(Request $request,UserRepository $userRepository): Response
     {
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
         }
 
+        $user = $userRepository->findOneBy(['username' => $request->get('username')]);
+        
         return $this->render('account/show.html.twig', [
             'user' => $user,
         ]);

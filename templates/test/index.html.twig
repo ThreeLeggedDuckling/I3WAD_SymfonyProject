@@ -4,21 +4,33 @@
 
 {% block body %}
 
-    {# {{dump(users)}} #}
+    <h1>{{ sample.username }} messages</h1>
 
-    <ul>
-    {% for u in users %}
-        <li>{{ u.username }} messages (📨 {{ u.sendMessages|length }} - 📩 {{ u.receivedMessages|length }})</li>
-    {% endfor %}
-    </ul>
-
-    <hr>
-    {# {{dump(groups)}} #}
-
-    <ul>
     {% for g in groups %}
-        <li>{{ g.name }} [id : {{ g.id }}] messages (🪧 {{ g.messages|length }})</li>
+        <div>
+            <h2>{{ g.name }} discussion</h2>
+            {% for m in g.messages %}
+                <div>
+                    <p>{{ m.author.username }}</p>
+                    <p>{{ m.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
     {% endfor %}
-    </ul>
+    
+
+    {% for p in discussion %}
+        <div>
+            <h2>Discussion with {{ p.username }}</h2>
+            {% for m in sample.getMessages() %}
+            {% if m.author == p or m.getTarget() == p %}
+                <div>
+                    <p>{{ m.author.username }}</p>
+                    <p>{{ m.content }}</p>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
 
 {% endblock %}

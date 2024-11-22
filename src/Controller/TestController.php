@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Group;
 use App\Repository\MessageRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,27 +12,30 @@ use Symfony\Component\Routing\Attribute\Route;
 class TestController extends AbstractController
 {
     #[Route('/test', name: 'app_test')]
-    public function index(MessageRepository $messageRepository): Response
+    public function index(MessageRepository $messageRepository, UserRepository $userRepository): Response
     {
-        $messages = $messageRepository->findAll();
-        $users = [];
-        $groups = [];
+        // $users = $userRepository->findAll();
+        // $sample = $users[rand(0, count($users)-1)];
 
-        foreach ($messages as $m) {
-            if (!array_search($m->getAuthor(), $users)) {
-                $users[] = $m->getAuthor();
-            }
-            if ($m->getTarget() instanceof Group && !array_search($m->getTarget(), $groups)) {
-                $groups[] = $m->getTarget();
+        $sample = $userRepository->find(27);
+        $groups = $sample->getGroups();
+        $discussions = [];
+        foreach ($sample->getMessages() as $m) {
+            if (!$m->isToGroup()) {
+                if ($m->getAuthor() != $sample && !array_search($m->getAuthor(), $discussions)) {
+                    $discussions[] = $m->getAuthor();
+                }
+                if ($m->getTarget() != $sample && !array_search($m->getTarget(), $discussions)) {
+                    $discussions[] = $m->getTarget();
+                }
             }
         }
 
-        // dd(count($messages), count($users), $users, count($groups), $groups);
-
         return $this->render('test/index.html.twig', [
-            'messages' => $messages,
-            'users' => $users,
-            'groups' => $groups
+            // 'users' => $users,
+            'sample' => $sample,
+            'groups' => $groups,
+            'discussion' => $discussions,
         ]);
     }
 }

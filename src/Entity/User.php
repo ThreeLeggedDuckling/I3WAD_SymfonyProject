@@ -415,4 +415,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return new ArrayCollection(
+            array_merge(
+                $this->sendMessages->toArray(),
+                $this->receivedMessages->toArray()
+            )
+        );
+    }
+
 }

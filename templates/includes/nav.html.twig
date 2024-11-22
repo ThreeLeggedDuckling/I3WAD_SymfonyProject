@@ -27,7 +27,7 @@
 				{% endif %}
 
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_account_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
+					<a class="nav-link" href="{{ path('app_account_show', {'username': app.user.username}) }}">{{ app.user.username }}</a>
 				</li>
 
 				<li class="nav-item">
@@ -51,15 +51,10 @@
 	
 </nav>
 
-{#  {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %} #}
-{# <pre>
-	{{ dump(app.request.attributes.get('_route')) }}
-</pre> #}
 
-{# trouver pourquoi marche pas pour rendre truc plus simple / propre #}
 {% block customJS %}
-	{{ encore_entry_script_tags('dNav') }}
+	{{ encore_entry_script_tags('nav') }}
 {% endblock %}
-{% block customCSS %}
-	{{ encore_entry_link_tags('dNav') }}
-{% endblock %}
+{# {% block customCSS %}
+	{{ encore_entry_link_tags('nav') }}
+{% endblock %} #}
